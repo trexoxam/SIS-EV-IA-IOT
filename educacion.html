@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Becas de Educación</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+</head>
+<body>
+
+    <h1 class="titulo-pagina">Becas de Educación</h1>
+
+    {% if becas %}
+        <div class="becas-container">
+            {% for beca in becas %}
+            <div class="card">
+                <h2>{{ beca.nombre }}</h2>
+
+                <div class="fechas">
+                    <p class="fecha-inicio"><strong>Inicio:</strong> {{ beca.fecha_inicio }}</p>
+                    <p class="fecha-fin"><strong>Fin:</strong> {{ beca.fecha_fin }}</p>
+                </div>
+
+                <p class="descripcion">
+                    {{ beca.descripcion }}
+                </p>
+
+                <a class="btn-pdf" href="{{ url_for('static', filename='pdf/' + beca.pdf) }}" target="_blank">
+                    Ver PDF
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-datos">No hay becas disponibles.</p>
+    {% endif %}
+
+    <div class="auth-footer">
+                <p><a href="/">Salir</a></p>
+
+</body>
+</html>
