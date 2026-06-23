@@ -1,0 +1,172 @@
+
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AIAS te ayuda a encontrar becas y apoyos sociales del gobierno de forma rápida y segura.">
+    <title>AIAS - Asistente de Apoyo Social</title>
+    <link rel="stylesheet" href="css/estilo.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+</head>
+<body>
+    <a class="skip-link" href="#conoce-aias">Saltar al contenido</a>
+
+    <header class="hero">
+        <div class="hero-inner">
+            <div class="hero-top">
+                <div class="brand">
+                    <span class="brand-mark">AIAS</span>
+                    <span class="brand-tag">Asistente Inteligente de Apoyo Social</span>
+                </div>
+                <a class="btn-login" href="/login">Iniciar sesión</a>
+                <a class="btn-login" href="/registro">Registrarse</a>
+
+            </div>
+            <p class="eyebrow">Tu guía para apoyos sociales</p>
+            <h1>Encuentra el apoyo que tu familia necesita, en minutos.</h1>
+            <p class="hero-lead">AIAS te ayuda a localizar becas, programas de salud, vivienda y otros apoyos del gobierno. Pregunta lo que buscas y te decimos qué existe, quién puede solicitarlo y cómo hacerlo.</p>
+            <ul class="trust-chips" role="list">
+                <li>Información oficial</li>
+                <li>Respuesta inmediata</li>
+                <li>100% gratuito</li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="apoyos-preview" aria-labelledby="apoyos-heading">
+        <div class="section-head">
+            <h2 id="apoyos-heading">¿Qué tipo de apoyos puedes consultar aquí?</h2>
+            <p>Estas son algunas categorías que el asistente conoce. Inicia sesión para preguntarle sobre cualquiera de ellas.</p>
+        </div>
+
+        <div class="apoyos-grid">
+        <a class="apoyo-card" href="/becas/educacion">
+                <span class="badge" aria-hidden="true">
+                    <svg class="badge-icon" viewBox="0 0 24 24">
+                        <path d="M2 9l10-5 10 5-10 5-10-5z"/>
+                        <path d="M6 11.5V16c0 1.7 2.7 3 6 3s6-1.3 6-3v-4.5"/>
+                        <path d="M22 9v5"/>
+                    </svg>
+                </span>
+                <span class="apoyo-title">Becas y Educación</span>
+                <span class="apoyo-desc">Becas, útiles escolares y apoyos para seguir estudiando.</span>
+            </a>
+
+           <a class="apoyo-card" href="/becas/bienestar"> 
+                <span class="badge" aria-hidden="true">
+                    <svg class="badge-icon" viewBox="0 0 24 24">
+                        <path d="M12 20s-7-4.4-7-9.5C5 7.4 7 5.3 9.5 5.3c1.2 0 2.4.6 2.5 1.5.1-.9 1.3-1.5 2.5-1.5C17 5.3 19 7.4 19 10.5 19 15.6 12 20 12 20z"/>
+                        <path d="M12 9.5v4"/>
+                        <path d="M10 11.5h4"/>
+                    </svg>
+                </span>
+                <span class="apoyo-title">Salud y Bienestar</span>
+                <span class="apoyo-desc">Consultas, medicamentos y programas de atención médica.</span>
+            </a>
+
+           <a class="apoyo-card" href="/becas/vivienda"> 
+                <span class="badge" aria-hidden="true">
+                    <svg class="badge-icon" viewBox="0 0 24 24">
+                        <path d="M4 11l8-7 8 7"/>
+                        <path d="M6 10v8h12v-8"/>
+                        <path d="M10 18v-4h4v4"/>
+                    </svg>
+                </span>
+                <span class="apoyo-title">Vivienda</span>
+                <span class="apoyo-desc">Créditos, mejoras de vivienda y apoyos para tu hogar.</span>
+            </a>
+
+           <a class="apoyo-card" href="/becas/empleo"> 
+                <span class="badge" aria-hidden="true">
+                    <svg class="badge-icon" viewBox="0 0 24 24">
+                        <path d="M4 8h16v10H4z"/>
+                        <path d="M9 8V6.5C9 5.7 9.7 5 10.5 5h3c.8 0 1.5.7 1.5 1.5V8"/>
+                        <path d="M4 13h16"/>
+                    </svg>
+                </span>
+                <span class="apoyo-title">Empleo</span>
+                <span class="apoyo-desc">Capacitación, bolsa de trabajo y apoyos para encontrar empleo.</span>
+            </a>
+
+
+            <a class="apoyo-card" href="/becas/alimentacion"> 
+                <span class="badge" aria-hidden="true">
+                    <svg class="badge-icon" viewBox="0 0 24 24">
+                        <path d="M4 11l8-7 8 7"/>
+                        <path d="M6 10v8h12v-8"/>
+                        <path d="M10 18v-4h4v4"/>
+                    </svg>
+                </span>
+                <span class="apoyo-title">Alimentación</span>
+                <span class="apoyo-desc">Programas alimentarios para ti y tu familia.</span>
+            </a>
+
+            <a class="apoyo-card" href="/becas/adultos_mayores"> 
+                <span class="badge" aria-hidden="true">
+                    <svg class="badge-icon" viewBox="0 0 24 24">
+                        <path d="M4 11l8-7 8 7"/>
+                        <path d="M6 10v8h12v-8"/>
+                        <path d="M10 18v-4h4v4"/>
+                    </svg>
+                </span>
+                <span class="apoyo-title">Adultos Mayores</span>
+                <span class="apoyo-desc">Pensiones y apoyos para el cuidado de personas mayores.</span>
+            </a>
+
+        </div>
+
+        <div class="scroll-cue">
+            <a href="#conoce-aias">Conoce a AIAS <span aria-hidden="true">↓</span></a>
+        </div>
+    </section>
+
+    <section class="ia-presentacion" id="conoce-aias" aria-labelledby="ia-heading">
+        <div class="ia-card">
+            <span class="badge" aria-hidden="true">
+                <svg class="badge-icon" viewBox="0 0 24 24">
+                    <path d="M4 5h16a1 1 0 011 1v9a1 1 0 01-1 1H9l-4 3v-3H4a1 1 0 01-1-1V6a1 1 0 011-1z"/>
+                    <path d="M7 10h.01"/>
+                    <path d="M12 10h.01"/>
+                    <path d="M17 10h.01"/>
+                </svg>
+            </span>
+            <h2 id="ia-heading">Conoce a AIAS, tu asistente virtual</h2>
+            <p>AIAS responde en segundos tus preguntas sobre becas, salud, vivienda y otros apoyos sociales, usando información oficial.</p>
+            <p class="ia-login-nota">Para platicar con AIAS, primero inicia sesión.</p>
+            <a class="btn-primario" href="/login">Iniciar sesión para usar AIAS</a>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <p>AIAS reúne información pública sobre programas de apoyo social. Verifica siempre los requisitos en la fuente oficial.</p>
+    </footer>
+
+    
+
+    <main class="chat-container">
+        <section class="chat-box" id="chatBox">
+            <div class="message bot-message">
+                <p>¡Hola! Soy tu asistente virtual. ¿En qué puedo ayudarte hoy? Por ejemplo, puedes preguntarme por "Becas para estudiantes".</p>
+            </div>
+        </section>
+
+        <form class="chat-input-area" id="chatForm">
+            <input type="text" id="userInput" placeholder="Escribe tu pregunta aquí..." required autocomplete="off">
+            <button type="submit" id="sendBtn">Enviar Pregunta</button>
+        </form>
+    </main>
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script></body>
+</body>
+
+
+</html>
+
+
+
