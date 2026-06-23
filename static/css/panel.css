@@ -1,0 +1,96 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#f8fafc;
+}
+
+.sidebar{
+position:fixed;
+width:280px;
+height:100vh;
+background:#0f172a;
+padding:25px;
+color:white;
+}
+
+.logo{
+font-size:28px;
+font-weight:bold;
+margin-bottom:40px;
+}
+
+.logo span{
+color:#38bdf8;
+}
+
+.sidebar a{
+display:block;
+padding:15px;
+color:white;
+text-decoration:none;
+margin-bottom:10px;
+border-radius:10px;
+}
+
+.sidebar a:hover{
+background:#1e293b;
+}
+
+.main{
+margin-left:280px;
+padding:30px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+margin-bottom:30px;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:20px;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.card h1{
+color:#2563eb;
+}
+
+.grid{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:20px;
+}
+
+.panel{
+background:white;
+padding:25px;
+border-radius:20px;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.alert{
+padding:15px;
+border-radius:12px;
+margin-bottom:15px;
+}
+
+.red{
+background:#fee2e2;
+}
+
+.yellow{
+background:#fef3c7;
+}
+
+.green{
+background:#dcfce7;
+}

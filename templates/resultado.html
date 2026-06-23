@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Resultado del Examen</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#0f172a;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.resultado-card{
+width:100%;
+max-width:700px;
+background:#1e293b;
+border-radius:25px;
+padding:40px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,.3);
+color:white;
+}
+
+.logo{
+font-size:40px;
+font-weight:bold;
+margin-bottom:20px;
+}
+
+.logo span{
+color:#38bdf8;
+}
+
+.estado{
+display:inline-block;
+padding:10px 20px;
+background:#14532d;
+border-radius:50px;
+margin-bottom:25px;
+font-weight:bold;
+}
+
+h1{
+font-size:35px;
+margin-bottom:20px;
+}
+
+.puntaje{
+width:180px;
+height:180px;
+margin:25px auto;
+border-radius:50%;
+background:linear-gradient(
+135deg,
+#2563eb,
+#38bdf8
+);
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:55px;
+font-weight:bold;
+color:white;
+box-shadow:0 0 30px rgba(56,189,248,.4);
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+margin-top:35px;
+}
+
+.stat{
+background:#0f172a;
+padding:20px;
+border-radius:15px;
+}
+
+.stat h2{
+font-size:30px;
+margin-bottom:10px;
+color:#38bdf8;
+}
+
+.stat p{
+color:#cbd5e1;
+}
+
+.btn{
+display:inline-block;
+margin-top:35px;
+padding:15px 30px;
+background:#2563eb;
+color:white;
+text-decoration:none;
+border-radius:12px;
+font-weight:bold;
+transition:.3s;
+}
+
+.btn:hover{
+background:#1d4ed8;
+}
+
+@media(max-width:700px){
+
+.stats{
+grid-template-columns:1fr;
+}
+
+.puntaje{
+width:150px;
+height:150px;
+font-size:45px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="resultado-card">
+
+<div class="logo">
+🧠 Exam<span>IA</span>
+</div>
+
+<div class="estado">
+✅ Examen Finalizado
+</div>
+
+<h1>Resultado Obtenido</h1>
+
+<div class="puntaje">
+{{ calificacion }}%
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<h2>{{ correctas }}</h2>
+<p>Correctas</p>
+</div>
+
+<div class="stat">
+<h2>{{ incorrectas }}</h2>
+<p>Incorrectas</p>
+</div>
+
+<div class="stat">
+<h2>{{ total }}</h2>
+<p>Total</p>
+</div>
+
+</div>
+
+<a href="{{ url_for('index') }}" class="btn">
+🏠 Volver al Inicio
+</a>
+
+</div>
+
+</body>
+</html>

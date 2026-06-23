@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ExamIA | Registro de Aspirante</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/registro.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="sidebar">
+
+<div class="logo">
+🧠 Exam<span>IA</span>
+</div>
+
+<h2>Registro Inteligente</h2>
+
+<p>
+La información proporcionada será utilizada por nuestros modelos de Inteligencia Artificial para generar evaluaciones personalizadas y asignar horarios de examen de forma automática.
+</p>
+
+<div class="estado">
+<h3>👤 Perfil</h3>
+<p>Pendiente</p>
+</div>
+
+<div class="estado">
+<h3>📚 Información Académica</h3>
+<p>Pendiente</p>
+</div>
+
+<div class="estado">
+<h3>📷 Verificación Biométrica</h3>
+<p>Pendiente</p>
+</div>
+
+<div class="estado">
+<h3>🤖 Análisis IA</h3>
+<p>Esperando datos</p>
+</div>
+
+</div>
+
+<div class="formulario">
+
+<div class="titulo">
+<h1>Registro de Aspirante</h1>
+<p>Complete la información solicitada para acceder al sistema.</p>
+</div>
+
+<form action="/registro" method="POST">
+
+<div class="seccion">
+
+<h2>Datos Personales</h2>
+
+<div class="grid">
+
+<div class="campo">
+<label>Nombre Completo</label>
+<input type="text" name="nombre_completo" placeholder="Ingrese su nombre" required>
+</div>
+
+<div class="campo">
+<label>CURP</label>
+<input type="text" name="curp" placeholder="Ingrese CURP" maxlength="18" required>
+</div>
+
+<div class="campo">
+<label>Correo Electrónico</label>
+<input type="email" name="correo" placeholder="correo@ejemplo.com" required>
+</div>
+
+<div class="campo">
+<label>Teléfono</label>
+<input type="text" name="telefono" placeholder="5551234567" required>
+</div>
+
+<div class="campo">
+<label>Contraseña</label>
+<input type="password" name="password" required>
+</div>
+
+
+
+</div>
+
+</div>
+
+<div class="seccion">
+
+<h2>Información Académica</h2>
+
+<div class="grid">
+
+<div class="campo">
+<label>Nivel Académico</label>
+<select name="nivel_academico" required>
+    <option value="">Seleccione</option>
+    <option value="Bachillerato">Bachillerato</option>
+    <option value="Licenciatura">Licenciatura</option>
+    <option value="Posgrado">Posgrado</option>
+</select>
+</div>
+
+<div class="campo">
+<label>Institución</label>
+<input type="text" name="institucion" required></div>
+
+<div class="campo">
+<label>Área de Interés</label>
+<input type="text" name="area_interes" placeholder="Ingrese el area de interes" required>
+</div>
+
+<div class="campo">
+<label>Promedio</label>
+<input type="number"
+       name="promedio"
+       min="0"
+       max="10"
+       step="0.1"
+       required>
+</div>
+
+</div>
+
+</div>
+
+<div class="seccion">
+
+<h2>Verificación Biométrica</h2>
+
+<div class="biometria">
+
+<div class="scan">
+📷 Captura Facial
+</div>
+
+<div class="scan">
+🆔 Identificación Oficial
+</div>
+
+</div>
+
+</div>
+
+<div class="seccion">
+
+<h2>Cuestionario Inicial</h2>
+
+<div class="cuestionario">
+
+<div class="pregunta">
+¿Cuenta con acceso estable a internet?
+<select name="internet_estable">
+    <option value="Si">Sí</option>
+    <option value="No">No</option>
+</select>
+</select>
+</div>
+
+<div class="pregunta">
+¿Ha realizado evaluaciones en línea anteriormente?
+<select name="experiencia_examenes">
+    <option value="Si">Sí</option>
+    <option value="No">No</option>
+</select>
+</div>
+
+<div class="pregunta">
+¿Dispone de cámara web para supervisión?
+<select name="dispone_camara">
+    <option value="Si">Sí</option>
+    <option value="No">No</option>
+</select>
+</div>
+
+</div>
+
+</div>
+
+
+
+<a href="login.html"></a>
+<button type="submit" class="btn">
+🚀 Crear Cuenta
+</button>
+<a>
+</form>
+
+<div class="footer">
+¿Ya tienes cuenta?
+<a href="login.html">Iniciar Sesión</a>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

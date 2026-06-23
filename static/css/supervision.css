@@ -1,0 +1,253 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#0f172a;
+color:white;
+height:100vh;
+overflow:hidden;
+}
+
+/* TOPBAR */
+
+.topbar{
+height:70px;
+background:#111827;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 30px;
+border-bottom:1px solid #1e293b;
+}
+
+.logo{
+font-size:28px;
+font-weight:bold;
+}
+
+.logo span{
+color:#38bdf8;
+}
+
+.estado{
+display:flex;
+align-items:center;
+gap:10px;
+font-size:15px;
+}
+
+.punto{
+width:12px;
+height:12px;
+background:#22c55e;
+border-radius:50%;
+}
+
+/* CONTENEDOR */
+
+.container{
+display:grid;
+grid-template-columns:1.8fr 420px;
+height:calc(100vh - 70px);
+}
+
+/* VIDEO */
+
+.video-section{
+padding:20px;
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.main-camera{
+flex:1;
+background:#111827;
+border-radius:20px;
+position:relative;
+overflow:hidden;
+border:2px solid #1e293b;
+}
+
+.main-camera::before{
+content:"CÁMARA PRINCIPAL";
+position:absolute;
+top:15px;
+left:15px;
+background:#2563eb;
+padding:8px 15px;
+border-radius:8px;
+font-size:12px;
+font-weight:bold;
+}
+
+.camera-placeholder{
+width:100%;
+height:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:80px;
+color:#334155;
+}
+
+.camera-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+height:180px;
+}
+
+.mini-camera{
+background:#111827;
+border-radius:15px;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:40px;
+color:#334155;
+border:1px solid #1e293b;
+position:relative;
+}
+
+.mini-camera span{
+position:absolute;
+top:10px;
+left:10px;
+font-size:12px;
+background:#1e293b;
+padding:5px 10px;
+border-radius:5px;
+color:white;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+background:#111827;
+padding:20px;
+overflow-y:auto;
+border-left:1px solid #1e293b;
+}
+
+.panel{
+background:#1e293b;
+padding:20px;
+border-radius:15px;
+margin-bottom:20px;
+}
+
+.panel h3{
+margin-bottom:15px;
+color:#38bdf8;
+}
+
+/* IA */
+
+.metric{
+margin-bottom:15px;
+}
+
+.metric-header{
+display:flex;
+justify-content:space-between;
+margin-bottom:8px;
+}
+
+.progress{
+height:10px;
+background:#334155;
+border-radius:20px;
+overflow:hidden;
+}
+
+.bar{
+height:100%;
+background:#22c55e;
+}
+
+.bar2{
+width:94%;
+}
+
+.bar3{
+width:88%;
+}
+
+.bar4{
+width:97%;
+}
+
+/* ALERTAS */
+
+.alert{
+padding:12px;
+border-radius:10px;
+margin-bottom:10px;
+font-size:14px;
+}
+
+.red{
+background:#7f1d1d;
+}
+
+.yellow{
+background:#78350f;
+}
+
+.green{
+background:#14532d;
+}
+
+/* EVENTOS */
+
+.event{
+padding:12px;
+background:#0f172a;
+border-radius:10px;
+margin-bottom:10px;
+border-left:4px solid #38bdf8;
+}
+
+.time{
+font-size:12px;
+color:#94a3b8;
+margin-bottom:5px;
+}
+
+/* DISPOSITIVOS */
+
+.device{
+display:flex;
+justify-content:space-between;
+padding:10px 0;
+border-bottom:1px solid #334155;
+}
+
+.online{
+color:#22c55e;
+font-weight:bold;
+}
+
+.offline{
+color:#ef4444;
+font-weight:bold;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1200px){
+
+.container{
+grid-template-columns:1fr;
+}
+
+.sidebar{
+display:none;
+}
+
+}

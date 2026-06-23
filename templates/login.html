@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExamIA | Iniciar Sesión</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/loginss.css') }}">
+
+
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Panel Informativo -->
+
+    <div class="left">
+
+        <div class="logo">
+            🧠 Exam<span>IA</span>
+        </div>
+
+        <h1>
+            Supervisión Inteligente
+            de Exámenes
+        </h1>
+
+        <p>
+            Plataforma de evaluación que integra Inteligencia Artificial,
+            análisis conductual y dispositivos IoT para garantizar procesos
+            seguros, transparentes y automatizados.
+        </p>
+
+        <div class="info-card">
+            <h3>🤖 Inteligencia Artificial</h3>
+            <p>
+                Asignación automática de citas y detección de patrones de comportamiento.
+            </p>
+        </div>
+
+        <div class="info-card">
+            <h3>📹 Supervisión en Tiempo Real</h3>
+            <p>
+                Monitoreo mediante cámaras IP y visión computacional.
+            </p>
+        </div>
+
+        <div class="info-card">
+            <h3>📊 Reportes Automatizados</h3>
+            <p>
+                Estadísticas y alertas generadas durante cada evaluación.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Formulario Login -->
+
+    <div class="right">
+
+        <div class="login-box">
+
+            <h2>Bienvenido</h2>
+
+            <p>
+                Accede a tu cuenta para continuar.
+            </p>
+
+{% if error %}
+<div class="error">
+    {{ error }}
+</div>
+{% endif %}
+
+            <form action="{{ url_for('login') }}" method="POST">
+
+    <div class="form-group">
+        <label>Correo Electrónico</label>
+        <input type="email" name="correo" required>
+    </div>
+
+    <div class="form-group">
+        <label>Contraseña</label>
+        <input type="password" name="password" required>
+    </div>
+
+    <button type="submit" class="btn-login">
+        Iniciar Sesión
+    </button>
+
+</form>
+
+            <div class="divider">
+                o continuar con
+            </div>
+
+            <div class="social">
+
+                <button>
+                    Google
+                </button>
+
+                <button>
+                    Microsoft
+                </button>
+
+            </div>
+
+            <div class="register">
+                ¿No tienes cuenta?
+                <a href="/registro">
+                    Registrarse
+                </a>
+            </div>
+
+            <div class="footer-info">
+                <span>🔒 Conexión Segura</span>
+                <span>Versión 1.0</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

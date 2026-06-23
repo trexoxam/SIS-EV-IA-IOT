@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ExamIA | Examen Supervisado</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/examen.css') }}">
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+🧠 Exam<span>IA</span>
+</div>
+
+<div class="exam-status">
+
+<div class="timer">
+⏱ 01:24:36
+</div>
+
+
+
+</div>
+
+</header>
+
+<div class="container">
+
+    <!-- EXAMEN -->
+    <div class="exam-section">
+
+        <div class="progress-container">
+
+            <div class="progress-header">
+                <span>Examen: {{ nombre_examen }}</span>
+<span>{{ numero }} de {{ total }}</span>            </div>
+
+            <div class="progress">
+<div class="progress-bar" style="width: {{ (numero * 100 / total)|round }}%"></div>            </div>
+
+        </div>
+
+<form method="POST" action="{{ url_for('guardar_respuesta') }}">
+
+<div class="question-card">
+
+<input
+type="hidden"
+name="id_pregunta"
+value="{{ pregunta.id_pregunta }}"
+>
+    <div class="question-number">
+        Pregunta {{ numero }} de {{ total }}
+    </div>
+
+    <div class="question-title">
+        {{ pregunta.pregunta }}
+    </div>
+
+    <label class="option">
+    <input
+    type="radio"
+    name="respuesta"
+    value="A"
+    {% if respuesta_usuario == 'A' %}checked{% endif %}
+    >
+    {{ pregunta.opcion_a }}
+</label>
+
+<label class="option">
+    <input
+    type="radio"
+    name="respuesta"
+    value="B"
+    {% if respuesta_usuario == 'B' %}checked{% endif %}
+    >
+    {{ pregunta.opcion_b }}
+</label>
+
+<label class="option">
+    <input
+    type="radio"
+    name="respuesta"
+    value="C"
+    {% if respuesta_usuario == 'C' %}checked{% endif %}
+    >
+    {{ pregunta.opcion_c }}
+</label>
+
+<label class="option">
+    <input
+    type="radio"
+    name="respuesta"
+    value="D"
+    {% if respuesta_usuario == 'D' %}checked{% endif %}
+    >
+    {{ pregunta.opcion_d }}
+</label>
+
+    <div class="navigation">
+
+    {% if numero > 1 %}
+    <a href="{{ url_for('anterior') }}" class="btn btn-prev">
+        ← Anterior
+    </a>
+    {% else %}
+    <span></span>
+    {% endif %}
+
+    {% if numero < total %}
+
+    <button type="submit" class="btn btn-next">
+        Siguiente →
+    </button>
+
+    {% else %}
+
+    <button type="submit" class="btn btn-next">
+        Finalizar Examen
+    </button>
+
+    {% endif %}
+
+</div>
+
+</div>
+</form>
+
+    </div>
+    <!-- FIN exam-section -->
+
+
+    <!-- SIDEBAR DERECHA -->
+    <div class="sidebar">
+
+        <div class="panel">
+
+            <h3>📹 Supervisión</h3>
+
+            <div class="camera">
+
+                <video id="webcam" autoplay playsinline></video>
+                <canvas id="canvas" style="display:none;"></canvas>
+
+                <div class="camera-controls">
+                    <button id="btnEncender">▶</button>
+                    <button id="btnApagar">⏹</button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="panel">
+
+            <h3>🤖 Estado IA</h3>
+
+            <div class="metric">
+
+                <div class="metric-header">
+                    <span>Reconocimiento Facial</span>
+                    <span>96%</span>
+                </div>
+
+                <div class="bar">
+                    <div class="fill face"></div>
+                </div>
+
+            </div>
+
+            <div class="metric">
+
+                <div class="metric-header">
+                    <span>Seguimiento Ocular</span>
+                    <span>91%</span>
+                </div>
+
+                <div class="bar">
+                    <div class="fill eyes"></div>
+                </div>
+
+            </div>
+
+            <div class="metric">
+
+                <div class="metric-header">
+                    <span>Nivel de Atención</span>
+                    <span>88%</span>
+                </div>
+
+                <div class="bar">
+                    <div class="fill focus"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="panel">
+
+            <h3>🚨 Alertas</h3>
+
+            <div class="alert success">
+                ✅ Identidad verificada.
+            </div>
+
+            <div class="alert info">
+                📡 ESP32-CAM conectada.
+            </div>
+
+            <div id="estadoRostro" class="alert success">
+                🟢 Rostro frontal detectado
+            </div>
+
+        </div>
+
+        <div class="panel">
+
+            <h3>📋 Información</h3>
+
+            <p><strong>Aspirante:</strong> Carlos Perea</p>
+            <br>
+
+            <p><strong>ID:</strong> ASP-2026-001</p>
+            <br>
+
+            <p><strong>Examen:</strong> {{ nombre_examen }}</p>
+            <br>
+
+            <p><strong>Estado:</strong> En Proceso</p>
+
+        </div>
+
+    </div>
+    <!-- FIN sidebar -->
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/face_detection.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+<script src="{{ url_for('static', filename='js/examen.js') }}"></script>
+
+</body>
+</html>

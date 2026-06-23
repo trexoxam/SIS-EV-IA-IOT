@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ExamIA | Dashboard</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo">
+🧠 Exam<span>IA</span>
+</div>
+
+<div class="menu">
+
+<a href="#" class="active">🏠 Dashboard</a>
+<a href="#">👤 Aspirantes</a>
+<a href="#">📅 Citas</a>
+<a href="/examenes">📝 Exámenes</a>
+<a href="#">📹 Supervisión</a>
+
+<div class="menu-title">
+Administración
+</div>
+
+<a href="#">📊 Reportes</a>
+<a href="#">🚨 Alertas</a>
+<a href="#">⚙ Configuración</a>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="topbar">
+
+<div>
+<h1>Dashboard General</h1>
+<p>Bienvenido al sistema inteligente de supervisión.</p>
+</div>
+
+<div class="user">
+
+<div>
+<strong>Carlos Perea</strong>
+<br>
+Administrador
+</div>
+
+<div class="avatar">
+CP
+</div>
+
+</div>
+
+</div>
+
+<!-- STATS -->
+
+<div class="cards">
+
+<div class="card">
+<div class="card-title">Aspirantes Registrados</div>
+<div class="card-number">324</div>
+<div class="card-status">+12 este mes</div>
+</div>
+
+<div class="card">
+<div class="card-title">Exámenes Activos</div>
+<div class="card-number">28</div>
+<div class="card-status">Supervisión en tiempo real</div>
+</div>
+
+<div class="card">
+<div class="card-title">Alertas IA</div>
+<div class="card-number">15</div>
+<div class="card-status">3 críticas detectadas</div>
+</div>
+
+<div class="card">
+<div class="card-title">Dispositivos IoT</div>
+<div class="card-number">12</div>
+<div class="card-status">100% operativos</div>
+</div>
+
+</div>
+
+<!-- GRID -->
+
+<div class="dashboard-grid">
+
+<!-- IZQUIERDA -->
+
+<div>
+
+<div class="panel">
+
+<h2>Actividad Reciente</h2>
+
+<table>
+
+<tr>
+<th>Hora</th>
+<th>Evento</th>
+<th>Estado</th>
+</tr>
+
+<tr>
+<td>09:15</td>
+<td>Inicio de examen</td>
+<td>Correcto</td>
+</tr>
+
+<tr>
+<td>09:32</td>
+<td>Movimiento sospechoso detectado</td>
+<td>Alerta</td>
+</tr>
+
+<tr>
+<td>10:05</td>
+<td>Validación biométrica</td>
+<td>Aprobada</td>
+</tr>
+
+<tr>
+<td>10:22</td>
+<td>Asignación automática de cita</td>
+<td>Completada</td>
+</tr>
+
+<tr>
+<td>10:48</td>
+<td>Generación de reporte IA</td>
+<td>Finalizado</td>
+</tr>
+
+</table>
+
+</div>
+
+<br>
+
+<div class="panel">
+
+<h2>Próximos Exámenes</h2>
+
+<div class="exam">
+<h4>Examen Psicométrico</h4>
+15 Junio 2026 - 10:00 AM
+</div>
+
+<div class="exam">
+<h4>Evaluación Técnica</h4>
+16 Junio 2026 - 11:30 AM
+</div>
+
+<div class="exam">
+<h4>Entrevista Automatizada IA</h4>
+18 Junio 2026 - 09:00 AM
+</div>
+
+</div>
+
+</div>
+
+<!-- DERECHA -->
+
+<div>
+
+
+<div class="panel">
+
+<h2>Alertas Recientes</h2>
+
+<div class="alert high">
+🚨 Posible intento de copia detectado.
+</div>
+
+<div class="alert medium">
+⚠ Mirada fuera de pantalla por 12 segundos.
+</div>
+
+<div class="alert low">
+✅ Examen completado correctamente.
+</div>
+
+</div>
+
+<br>
+
+<div class="panel">
+
+<h2>Estado IoT</h2>
+
+<div class="device">
+<span>ESP32-CAM #01</span>
+<span class="online">Online</span>
+</div>
+
+<div class="device">
+<span>ESP32-CAM #02</span>
+<span class="online">Online</span>
+</div>
+
+<div class="device">
+<span>Servidor IA</span>
+<span class="online">Online</span>
+</div>
+
+<div class="device">
+<span>Sensor Biométrico</span>
+<span class="offline">Offline</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

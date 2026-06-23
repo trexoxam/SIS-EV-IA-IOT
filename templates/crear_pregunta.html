@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EXAMIA - Crear Pregunta</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/crear_pregunta.css') }}">
+
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        🧠 Exam<span>IA</span>
+    </div>
+</header>
+
+<div class="contenedor">
+
+    <div class="header-card">
+        <h2>Crear Nueva Pregunta</h2>
+        <p>
+            Agrega preguntas de opción múltiple para tus exámenes.
+        </p>
+    </div>
+
+    <div class="form-card">
+
+        <form action="/guardar_pregunta" method="POST">
+
+            <div class="form-group">
+                <label for="nombre_examen">
+                    Nombre del examen
+                </label>
+
+                <input
+                    type="text"
+                    id="nombre_examen"
+                    name="nombre_examen"
+                    placeholder="Ejemplo: Matemáticas"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="pregunta">
+                    Pregunta
+                </label>
+
+                <textarea
+                    id="pregunta"
+                    name="pregunta"
+                    placeholder="Escribe la pregunta..."
+                    required
+                ></textarea>
+            </div>
+
+            <div class="opciones-grid">
+
+                <div class="form-group">
+                    <label for="opcion_a">
+                        Opción A
+                    </label>
+
+                    <input
+                        type="text"
+                        id="opcion_a"
+                        name="opcion_a"
+                        placeholder="Escribe la opción A"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="opcion_b">
+                        Opción B
+                    </label>
+
+                    <input
+                        type="text"
+                        id="opcion_b"
+                        name="opcion_b"
+                        placeholder="Escribe la opción B"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="opcion_c">
+                        Opción C
+                    </label>
+
+                    <input
+                        type="text"
+                        id="opcion_c"
+                        name="opcion_c"
+                        placeholder="Escribe la opción C"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="opcion_d">
+                        Opción D
+                    </label>
+
+                    <input
+                        type="text"
+                        id="opcion_d"
+                        name="opcion_d"
+                        placeholder="Escribe la opción D"
+                        required
+                    >
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="respuesta_correcta">
+                    Respuesta Correcta
+                </label>
+
+                <select
+                    id="respuesta_correcta"
+                    name="respuesta_correcta"
+                    required
+                >
+                    <option value="">
+                        Selecciona una respuesta
+                    </option>
+
+                    <option value="A">
+                        Opción A
+                    </option>
+
+                    <option value="B">
+                        Opción B
+                    </option>
+
+                    <option value="C">
+                        Opción C
+                    </option>
+
+                    <option value="D">
+                        Opción D
+                    </option>
+
+                </select>
+
+            </div>
+
+            <button
+                type="submit"
+                class="btn-guardar"
+            >
+                Guardar Pregunta
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>{{ nombre_examen }}</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/examenes.css') }}">
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        🧠 Exam<span>IA</span>
+    </div>
+</header>
+
+<div class="contenedor">
+
+    <div class="header-card">
+        <h2>{{ nombre_examen }}</h2>
+    </div>
+    <a href="{{ url_for('examenes') }}" class="btn-volver">
+    ← Volver a Exámenes
+</a>
+
+    {% for pregunta in preguntas %}
+
+    <div class="pregunta-card">
+
+        <h3>
+            {{ loop.index }}.
+            {{ pregunta.pregunta }}
+        </h3>
+
+        <ul>
+            <li>A) {{ pregunta.opcion_a }}</li>
+            <li>B) {{ pregunta.opcion_b }}</li>
+            <li>C) {{ pregunta.opcion_c }}</li>
+            <li>D) {{ pregunta.opcion_d }}</li>
+        </ul>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

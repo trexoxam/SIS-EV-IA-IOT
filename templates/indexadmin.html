@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ExamIA - Sistema Inteligente de Supervisión de Exámenes</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+🧠 Exam<span>IA</span>
+</div>
+
+<nav>
+<a href="#inicio">Inicio</a>
+<a href="#funciones">Funciones</a>
+<a href="#iot">IA & IoT</a>
+<a href="#proceso">Proceso</a>
+
+{% if usuario %}
+
+<span class="usuario">
+    👤 {{ usuario }}
+</span>
+
+<a href="/logout" class="btn-login">
+    Cerrar Sesión
+</a>
+
+{% else %}
+
+<a href="/login" class="btn-login">
+    Iniciar Sesión
+</a>
+{% endif %}
+
+</nav>
+</header>
+
+<section class="hero" id="inicio">
+
+<div class="hero-text">
+
+<h1>
+Sistema Inteligente de
+<span>Supervisión y Gestión</span>
+de Exámenes
+</h1>
+
+<p>
+Plataforma web que combina Inteligencia Artificial,
+visión computacional e Internet de las Cosas para
+automatizar la gestión, supervisión y análisis de
+aspirantes durante procesos de evaluación.
+</p>
+
+<div class="botones">
+
+{% if not usuario %}
+<a href="/registro" class="btn btn-secundario">
+    Registro
+</a>
+{% endif %}
+
+
+<a href="#funciones" class="btn btn-secundario">
+Conocer Más
+</a>
+
+</div>
+
+</div>
+
+<div class="hero-img">
+
+<div class="dashboard-preview">
+
+<div class="preview-top">
+
+<div class="mini-card">
+<h2></h2>
+<p>Aspirantes</p>
+</div>
+
+<div class="mini-card">
+<h2>98%</h2>
+<p>Precisión IA</p>
+</div>
+
+<div class="mini-card">
+<h2></h2>
+<p>Alertas</p>
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+<section class="section" id="funciones">
+
+<div class="titulo">
+
+<h2>Funciones Principales</h2>
+
+<p>
+Automatización completa del proceso de evaluación.
+</p>
+
+</div>
+
+<div class="features">
+
+{% if rol == 'admin' %}
+
+<a href="/dashboard" class="card-link">
+    <div class="card">
+        <div class="icono">📊</div>
+        <h3>Dashboard</h3>
+        <p>
+            Panel principal de administración.
+        </p>
+    </div>
+</a>
+
+<a href="/crear_pregunta" class="card-link">
+    <div class="card">
+        <div class="icono">➕</div>
+        <h3>Crear Examen</h3>
+        <p>
+            Crear y administrar exámenes.
+        </p>
+    </div>
+</a>
+
+<a href="/panel" class="card-link">
+    <div class="card">
+        <div class="icono">🎥</div>
+        <h3>Panel de Supervisión</h3>
+        <p>
+            Monitoreo en tiempo real de aspirantes.
+        </p>
+    </div>
+</a>
+
+<a href="/reportes" class="card-link">
+    <div class="card">
+        <div class="icono">📄</div>
+        <h3>Reportes</h3>
+        <p>
+            Estadísticas y resultados de exámenes.
+        </p>
+    </div>
+</a>
+
+{% else %}
+
+<a href="/agenda" class="card-link">
+    <div class="card">
+        <div class="icono">📅</div>
+        <h3>Asignación de Citas</h3>
+        <p>
+            La IA analiza disponibilidad y genera horarios óptimos.
+        </p>
+    </div>
+</a>
+
+{% if usuario %}
+
+
+{% endif %}
+
+
+
+
+{% endif %}
+
+</div>
+
+</section>
+
+<section class="section stats">
+
+<div class="titulo">
+<h2>Indicadores del Sistema</h2>
+</div>
+
+<div class="stats-grid">
+
+<div class="stat">
+<h1></h1>
+<p>Precisión IA</p>
+</div>
+
+<div class="stat">
+<h1></h1>
+<p>Exámenes Procesados</p>
+</div>
+
+<div class="stat">
+<h1></h1>
+<p>Monitoreo Activo</p>
+</div>
+
+<div class="stat">
+<h1>100%</h1>
+<p>Trazabilidad</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="section" id="iot">
+
+<div class="titulo">
+<h2>Tecnologías IA e IoT</h2>
+<p>Integración avanzada para supervisión inteligente.</p>
+</div>
+
+<div class="iot">
+
+<div class="iot-box">
+
+<h3>🧠 Inteligencia Artificial</h3>
+
+<ul>
+<li>Asignación automática de citas.</li>
+<li>Generación automática de alertas.</li>
+<li>Análisis de comportamiento.</li>
+</ul>
+
+</div>
+
+<div class="iot-box">
+
+<h3>📡 Internet de las Cosas</h3>
+
+<ul>
+<li>ESP32 conectado al sistema.</li>
+<li>Monitoreo mediante cámaras IP.</li>
+<li>Captura de video en tiempo real.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="section" id="proceso">
+
+<div class="titulo">
+
+<h2>Proceso de Evaluación</h2>
+
+</div>
+
+<div class="workflow">
+
+<div class="step">
+<div class="step-number">1</div>
+<h3>Registro</h3>
+<p>El aspirante crea una cuenta.</p>
+</div>
+
+<div class="step">
+<div class="step-number">2</div>
+<h3>Cuestionario</h3>
+<p>Se realiza una evaluación inicial.</p>
+</div>
+
+<div class="step">
+<div class="step-number">3</div>
+<h3>IA</h3>
+<p>La IA asigna fecha y horario.</p>
+</div>
+
+<div class="step">
+<div class="step-number">4</div>
+<h3>Supervisión</h3>
+<p>Monitoreo mediante cámara.</p>
+</div>
+
+<div class="step">
+<div class="step-number">5</div>
+<h3>Reporte</h3>
+<p>Generación de resultados y alertas.</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="cta">
+
+<h2>Comienza tu Evaluación Inteligente</h2>
+
+<p>
+Accede a una plataforma moderna que integra Inteligencia Artificial,
+visión computacional e Internet de las Cosas para garantizar procesos
+de evaluación seguros y automatizados.
+</p>
+
+<a href="registro.html" class="btn btn-principal">
+Crear Cuenta
+</a>
+
+</section>
+
+<footer>
+
+<p>
+© 2026 ExamIA | Sistema Inteligente de Supervisión y Gestión de Exámenes mediante IA e IoT
+</p>
+
+</footer>
+
+</body>
+</html>

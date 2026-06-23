@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExamIA | Agenda Inteligente</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/agenda.css') }}">
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+🧠 Exam<span>IA</span>
+</div>
+
+<h3>Agenda Inteligente</h3>
+
+</header>
+
+<div class="container">
+
+<div class="cards">
+
+<div class="card">
+<p>Citas Programadas</p>
+</div>
+
+<div class="card">
+<p>Salas Disponibles</p>
+</div>
+
+<div class="card">
+<p>Optimización IA</p>
+</div>
+
+<div class="card">
+<p>Exámenes Hoy</p>
+</div>
+
+</div>
+
+<div class="grid">
+<div class="panel">
+
+    <h2>Agendar Cita</h2>
+
+    <form action="{{ url_for('crear_cita') }}" method="POST">
+
+        <label>Fecha:</label>
+        <input type="date" name="fecha" required>
+
+        <br><br>
+
+        <label>Hora:</label>
+        <input type="time" name="hora" required>
+
+        <br><br>
+
+        <button type="submit">
+            Agendar
+        </button>
+
+    </form>
+
+</div>
+<div class="panel">
+
+<h2>Próximas Citas</h2>
+
+<table>
+
+<tr>
+<th>Aspirante</th>
+<th>Fecha</th>
+<th>Hora</th>
+<th>Estado</th>
+</tr>
+{% for cita in citas %}
+<tr>
+    <td>{{ cita.nombre_completo }}</td>
+    <td>{{ cita.fecha }}</td>
+    <td>{{ cita.hora }}</td>
+    <td>{{ cita.estado }}</td>
+</tr>
+{% endfor %}
+
+
+
+</table>
+
+</div>
+
+<div class="panel">
+
+<h2>Recomendaciones IA</h2>
+
+<div class="recommendation">
+🤖 Horario recomendado:
+09:00 - 12:00 hrs
+</div>
+
+<div class="recommendation">
+📊 Menor carga de aspirantes.
+</div>
+
+<div class="recommendation">
+⚡ Disponibilidad total de cámaras.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
