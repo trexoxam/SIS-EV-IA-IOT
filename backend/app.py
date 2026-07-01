@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, session, redirect, url_for
 import mysql.connector
+import os
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(
@@ -12,10 +13,12 @@ app.secret_key = "examai_2026"
 
 def conectar():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="examai"
+        host=os.environ.get("DB_HOST"),
+        user=os.environ.get("DB_USER"),
+        password=os.environ.get("DB_PASSWORD"),
+        database=os.environ.get("DB_NAME"),
+        port=int(os.environ.get("DB_PORT", 16443)),
+        ssl_ca='ca.pem' 
     )
 
 @app.route('/')

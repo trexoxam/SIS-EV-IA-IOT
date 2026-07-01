@@ -3,9 +3,10 @@ import os
 
 def conectar():
     return mysql.connector.connect(
-        host=os.environ.get("margaradb-aioria123.e.aivencloud.com"),
-        user=os.environ.get("avnadmin"),
+        host=os.environ.get("DB_HOST"),
+        user=os.environ.get("DB_USER"),
         password=os.environ.get("DB_PASSWORD"),
-        database=os.environ.get("defaultdb"),
-        port=os.environ.get("16443") # Usamos el puerto de Aiven
+        database=os.environ.get("DB_NAME"),
+        port=int(os.environ.get("DB_PORT", 16443)),
+        ssl_ca='ca.pem' 
     )
