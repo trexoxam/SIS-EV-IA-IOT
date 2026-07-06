@@ -110,43 +110,18 @@ CP
 <h2>Actividad Reciente</h2>
 
 <table>
-
-<tr>
-<th>Hora</th>
-<th>Evento</th>
-<th>Estado</th>
-</tr>
-
-<tr>
-<td>09:15</td>
-<td>Inicio de examen</td>
-<td>Correcto</td>
-</tr>
-
-<tr>
-<td>09:32</td>
-<td>Movimiento sospechoso detectado</td>
-<td>Alerta</td>
-</tr>
-
-<tr>
-<td>10:05</td>
-<td>Validación biométrica</td>
-<td>Aprobada</td>
-</tr>
-
-<tr>
-<td>10:22</td>
-<td>Asignación automática de cita</td>
-<td>Completada</td>
-</tr>
-
-<tr>
-<td>10:48</td>
-<td>Generación de reporte IA</td>
-<td>Finalizado</td>
-</tr>
-
+    <tr>
+        <th>Fecha/Hora</th>
+        <th>Examen</th>
+        <th>Calificación</th>
+    </tr>
+    {% for res in resultados %}
+    <tr>
+        <td>{{ res.fecha_fin.strftime('%H:%M:%S') }}</td>
+        <td>{{ res.nombre_examen }}</td>
+        <td>{{ res.calificacion }}%</td>
+    </tr>
+    {% endfor %}
 </table>
 
 </div>

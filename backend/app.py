@@ -281,47 +281,26 @@ def guardar_respuesta():
 
 @app.route('/resultado')
 def resultado():
-
     id_usuario = session['id_usuario']
-
+    nombre_examen = session.get('examen_actual')
+    
     conn = conectar()
     cursor = conn.cursor(dictionary=True)
-
-    cursor.execute("""
-        SELECT COUNT(*) AS correctas
-        FROM respuestas_usuario r
-        INNER JOIN preguntas p
-        ON r.id_pregunta = p.id_pregunta
-        WHERE r.id_usuario = %s
-        AND r.respuesta_usuario = p.respuesta_correcta
-    """, (id_usuario,))
-
+    cursor.execute("SELECT COUNT(*) AS correctas FROM respuestas_usuario r INNER JOIN preguntas p ON r.id_pregunta = p.id_pregunta WHERE r.id_usuario = %s AND r.respuesta_usuario = p.respuesta_correcta", (id_usuario,))
     correctas = cursor.fetchone()['correctas']
-
-    cursor.execute("""
-        SELECT COUNT(*) AS total
-        FROM respuestas_usuario
-        WHERE id_usuario = %s
-    """, (id_usuario,))
-
+    cursor.execute("SELECT COUNT(*) AS total FROM respuestas_usuario r INNER JOIN preguntas p ON r.id_pregunta = p.id_pregunta WHERE r.id_usuario = %s", (id_usuario,))
     total = cursor.fetchone()['total']
-
+    
+    calificacion = round((correctas / total) * 100) if total > 0 else 0
+    
+    cursor.execute("INSERT INTO resultados_examen (id_usuario, nombre_examen, calificacion, fecha_fin) VALUES (%s, %s, %s, NOW())", 
+                   (id_usuario, nombre_examen, calificacion))
+    conn.commit()
+    
     cursor.close()
     conn.close()
-
-    if total > 0:
-        calificacion = round((correctas / total) * 100)
-    else:
-        calificacion = 0
-
-    return render_template(
-        'resultado.html',
-        correctas=correctas,
-        incorrectas=total-correctas,
-        total=total,
-        calificacion=calificacion
-    )
-
+    
+    return render_template('resultado.html', correctas=correctas, total=total, calificacion=calificacion)
 @app.route('/siguiente')
 def siguiente():
 
@@ -339,7 +318,16 @@ def anterior():
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    conn = conectar()
+    cursor = conn.cursor(dictionary=True)
+    # Traemos los últimos 5 resultados
+    cursor.execute("SELECT * FROM resultados_examen ORDER BY fecha_fin DESC LIMIT 5")
+    resultados = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template('dashboard.html', resultados=resultados)
+
+
 
 @app.route('/crear_pregunta')
 def crear_pregunta():
