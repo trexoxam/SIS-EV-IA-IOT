@@ -286,21 +286,41 @@ def resultado():
     
     conn = conectar()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT COUNT(*) AS correctas FROM respuestas_usuario r INNER JOIN preguntas p ON r.id_pregunta = p.id_pregunta WHERE r.id_usuario = %s AND r.respuesta_usuario = p.respuesta_correcta", (id_usuario,))
+
+    # 1. Calculamos correctas e incorrectas
+    cursor.execute("""
+        SELECT COUNT(*) AS correctas
+        FROM respuestas_usuario r
+        INNER JOIN preguntas p ON r.id_pregunta = p.id_pregunta
+        WHERE r.id_usuario = %s AND r.respuesta_usuario = p.respuesta_correcta
+    """, (id_usuario,))
     correctas = cursor.fetchone()['correctas']
-    cursor.execute("SELECT COUNT(*) AS total FROM respuestas_usuario r INNER JOIN preguntas p ON r.id_pregunta = p.id_pregunta WHERE r.id_usuario = %s", (id_usuario,))
+
+    cursor.execute("SELECT COUNT(*) AS total FROM respuestas_usuario WHERE id_usuario = %s", (id_usuario,))
     total = cursor.fetchone()['total']
     
+    incorrectas = total - correctas
     calificacion = round((correctas / total) * 100) if total > 0 else 0
+
+    # 2. INSERTAMOS usando las variables que ya calculamos
+    # Ahora sí incluimos aciertos e incorrectas (que es tu columna 'errores')
+    cursor.execute("""
+        INSERT INTO resultados_examen (id_usuario, nombre_examen, calificacion, aciertos, errores, fecha_fin) 
+        VALUES (%s, %s, %s, %s, %s, NOW())
+    """, (id_usuario, nombre_examen, calificacion, correctas, incorrectas))
     
-    cursor.execute("INSERT INTO resultados_examen (id_usuario, nombre_examen, calificacion, fecha_fin) VALUES (%s, %s, %s, NOW())", 
-                   (id_usuario, nombre_examen, calificacion))
     conn.commit()
-    
     cursor.close()
     conn.close()
-    
-    return render_template('resultado.html', correctas=correctas, total=total, calificacion=calificacion)
+
+    return render_template(
+        'resultado.html',
+        correctas=correctas,
+        incorrectas=incorrectas,
+        total=total,
+        calificacion=calificacion
+    )
+
 @app.route('/siguiente')
 def siguiente():
 
@@ -326,8 +346,6 @@ def dashboard():
     cursor.close()
     conn.close()
     return render_template('dashboard.html', resultados=resultados)
-
-
 
 @app.route('/crear_pregunta')
 def crear_pregunta():
