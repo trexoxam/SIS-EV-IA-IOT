@@ -2,8 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ExamIA | Agenda Inteligente</title>
+    <title>ExamIA | Agenda</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/agenda.css') }}">
 </head>
 <body>
@@ -13,71 +12,52 @@
     </header>
 
     <div class="container">
-        <div class="cards">
-            <div class="card"><p>Citas Programadas</p></div>
-            <div class="card"><p>Salas Disponibles</p></div>
-            <div class="card"><p>Optimización IA</p></div>
-            <div class="card"><p>Exámenes Hoy</p></div>
+        <div class="panel">
+            <h2>Seleccionar Fecha</h2>
+            <form action="{{ url_for('agenda') }}" method="POST">
+                <label>Consultar disponibilidad para:</label>
+                <input type="date" name="fecha_consulta" value="{{ fecha_sel }}" onchange="this.form.submit()">
+            </form>
         </div>
 
-        <div class="grid">
-            <div class="panel">
-                <h2>Agendar Cita</h2>
-                <form action="{{ url_for('crear_cita') }}" method="POST">
-             <label>Horario:</label>
-             <label>Fecha:</label>
-            <input type="date" name="fecha" required>  
-<select name="hora" required>
-    <option value="12:00" {% if '12:00' in ocupadas %}disabled{% endif %}>12:00 - 14:00 {% if '12:00' in ocupadas %}(Ocupado){% endif %}</option>
-    <option value="14:00" {% if '14:00' in ocupadas %}disabled{% endif %}>14:00 - 16:00 {% if '14:00' in ocupadas %}(Ocupado){% endif %}</option>
-    <option value="16:00" {% if '16:00' in ocupadas %}disabled{% endif %}>16:00 - 18:00 {% if '16:00' in ocupadas %}(Ocupado){% endif %}</option>
-</select>
+        <div class="panel">
+            <h2>Agendar Cita</h2>
+            <form action="{{ url_for('crear_cita') }}" method="POST">
+                <input type="hidden" name="fecha" value="{{ fecha_sel }}">
+                <p>Fecha seleccionada: <strong>{{ fecha_sel }}</strong></p>
+                
+                <label>Horario:</label>
+                <select name="hora" required>
+                    <option value="12:00" {% if '12:00' in ocupadas %}disabled{% endif %}>12:00 - 14:00 {% if '12:00' in ocupadas %}(Ocupado){% endif %}</option>
+                    <option value="14:00" {% if '14:00' in ocupadas %}disabled{% endif %}>14:00 - 16:00 {% if '14:00' in ocupadas %}(Ocupado){% endif %}</option>
+                    <option value="16:00" {% if '16:00' in ocupadas %}disabled{% endif %}>16:00 - 18:00 {% if '16:00' in ocupadas %}(Ocupado){% endif %}</option>
+                </select>
+                <br><br>
+                <button type="submit">Agendar Cita</button>
+            </form>
+        </div>
 
-                    <br><br>
-                    <button type="submit">Agendar Cita</button>
-                </form>
-            </div>
-
-            <div class="panel">
-                <h2>Próximas Citas</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Aspirante</th>
-                            <th>Fecha</th>
-                            <th>Hora</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for cita in citas %}
-                        <tr>
-                            <td>{{ cita.nombre_completo }}</td>
-                            <td>{{ cita.fecha }}</td>
-                            <td>{{ cita.hora }}</td>
-                            <td>{{ cita.estado }}</td>
-                        </tr>
-                        {% else %}
-                        <tr>
-                            <td colspan="4">No hay citas registradas.</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="panel">
-                <h2>Recomendaciones IA</h2>
-                <div class="recommendation">🤖 Horario recomendado: 12:00 - 14:00 hrs</div>
-                <div class="recommendation">📊 Menor carga de aspirantes.</div>
-            </div>
+        <div class="panel">
+            <h2>Próximas Citas</h2>
+            <table>
+                <tr><th>Aspirante</th><th>Fecha</th><th>Hora</th><th>Estado</th></tr>
+                {% for cita in citas %}
+                <tr>
+                    <td>{{ cita.nombre_completo }}</td>
+                    <td>{{ cita.fecha }}</td>
+                    <td>{{ cita.hora }}</td>
+                    <td>{{ cita.estado }}</td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
     </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('status') === 'success') {
+            alert("¡Cita elegida correctamente!");
+        }
+    </script>
 </body>
-<script>
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('status') === 'success') {
-        alert("¡Cita elegida correctamente!");
-    }
-</script>
 </html>

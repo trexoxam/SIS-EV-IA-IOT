@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, session, redirect, url_for
+from datetime import datetime, timedelta
 import mysql.connector
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -494,14 +495,17 @@ def registro():
     return redirect(url_for('login'))
 
 
-@app.route('/agenda')
+@app.route('/agenda', methods=['GET', 'POST'])
 def agenda():
     if 'id_usuario' not in session: return redirect(url_for('login'))
+    
+    # Si el usuario envía una fecha por formulario, la usamos; si no, usamos hoy
+    fecha_consulta = request.form.get('fecha_consulta') or datetime.now().strftime("%Y-%m-%d")
     
     conn = conectar()
     cursor = conn.cursor(dictionary=True)
     
-    # 1. Obtener citas
+    # 1. Traer todas las citas (para la tabla, sin filtrar por día)
     cursor.execute("""
         SELECT c.fecha_cita AS fecha, c.horario_inicio AS hora, c.estado, u.nombre_completo 
         FROM citas c
@@ -510,25 +514,24 @@ def agenda():
     """)
     citas = cursor.fetchall()
     
-    # 2. Obtener horas ocupadas de forma segura (sin importar si es time o timedelta)
-    cursor.execute("SELECT DISTINCT horario_inicio FROM citas")
+    # 2. Traer HORAS OCUPADAS SOLO PARA LA FECHA SELECCIONADA
+    cursor.execute("SELECT horario_inicio FROM citas WHERE fecha_cita = %s", (fecha_consulta,))
     datos = cursor.fetchall()
     
     ocupadas = []
     for c in datos:
         val = c['horario_inicio']
-        if isinstance(val, (str)): # Si llega como string
-            ocupadas.append(val[:5])
-        elif hasattr(val, 'strftime'): # Si es tipo time
+        # Usamos la misma lógica robusta de conversión que ya tienes
+        if hasattr(val, 'strftime'):
             ocupadas.append(val.strftime("%H:%M"))
-        else: # Si es timedelta
+        else:
             total_segundos = int(val.total_seconds())
             ocupadas.append(f"{total_segundos // 3600:02}:{(total_segundos % 3600) // 60:02}")
     
     cursor.close()
     conn.close()
     
-    return render_template('agenda.html', citas=citas, ocupadas=ocupadas)
+    return render_template('agenda.html', citas=citas, ocupadas=ocupadas, fecha_sel=fecha_consulta)
 
 @app.route('/crear_cita', methods=['POST'])
 def crear_cita():
