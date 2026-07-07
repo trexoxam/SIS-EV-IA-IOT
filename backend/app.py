@@ -493,5 +493,61 @@ def registro():
 
     return redirect(url_for('login'))
 
+
+@app.route('/agenda')
+def agenda():
+    if 'id_usuario' not in session: return redirect(url_for('login'))
+    
+    conn = conectar()
+    cursor = conn.cursor(dictionary=True)
+    # Seleccionamos las citas uniendo con la tabla usuarios para tener el nombre
+    cursor.execute("""
+        SELECT c.fecha_cita AS fecha, c.horario_inicio AS hora, c.estado, u.nombre_completo 
+        FROM citas c
+        INNER JOIN usuarios u ON c.id_usuario = u.id_usuario
+        ORDER BY c.fecha_cita ASC
+    """)
+    citas = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template('agenda.html', citas=citas)
+
+@app.route('/crear_cita', methods=['POST'])
+def crear_cita():
+    if 'id_usuario' not in session: return redirect(url_for('login'))
+    
+    id_usuario = session['id_usuario']
+    fecha = request.form['fecha']
+    hora_inicio = request.form['hora']
+    
+    # Calculamos la hora de fin (asumiendo 2 horas de duración)
+    # Esto es una forma sencilla de manejar la hora
+    from datetime import datetime, timedelta
+    t = datetime.strptime(hora_inicio, "%H:%M")
+    hora_fin = (t + timedelta(hours=2)).strftime("%H:%M")
+
+    conn = conectar()
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute("""
+            INSERT INTO citas (id_usuario, fecha_cita, horario_inicio, horario_fin, estado)
+            VALUES (%s, %s, %s, %s, 'Confirmada')
+        """, (id_usuario, fecha, hora_inicio, hora_fin))
+        conn.commit()
+    except Exception as e:
+        print(f"Error al agendar: {e}")
+    finally:
+        cursor.close()
+        conn.close()
+        
+    return redirect(url_for('agenda'))
+
+
+
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
