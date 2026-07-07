@@ -24,17 +24,12 @@
             <div class="panel">
                 <h2>Agendar Cita</h2>
                 <form action="{{ url_for('crear_cita') }}" method="POST">
-                    <label>Fecha:</label>
-                    <input type="date" name="fecha" required>
-                    
-                    <br><br>
-                    
-                    <label>Horario:</label>
-                    <select name="hora" required>
-                        <option value="12:00">12:00 - 14:00</option>
-                        <option value="14:00">14:00 - 16:00</option>
-                        <option value="16:00">16:00 - 18:00</option>
-                    </select>
+             <label>Horario:</label>
+<select name="hora" required>
+    <option value="12:00" {% if '12:00' in ocupadas %}disabled{% endif %}>12:00 - 14:00 {% if '12:00' in ocupadas %}(Ocupado){% endif %}</option>
+    <option value="14:00" {% if '14:00' in ocupadas %}disabled{% endif %}>14:00 - 16:00 {% if '14:00' in ocupadas %}(Ocupado){% endif %}</option>
+    <option value="16:00" {% if '16:00' in ocupadas %}disabled{% endif %}>16:00 - 18:00 {% if '16:00' in ocupadas %}(Ocupado){% endif %}</option>
+</select>
 
                     <br><br>
                     <button type="submit">Agendar Cita</button>
@@ -77,4 +72,10 @@
         </div>
     </div>
 </body>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('status') === 'success') {
+        alert("¡Cita elegida correctamente!");
+    }
+</script>
 </html>

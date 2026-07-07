@@ -500,7 +500,8 @@ def agenda():
     
     conn = conectar()
     cursor = conn.cursor(dictionary=True)
-    # Seleccionamos las citas uniendo con la tabla usuarios para tener el nombre
+    
+    # 1. Obtener todas las citas para la tabla
     cursor.execute("""
         SELECT c.fecha_cita AS fecha, c.horario_inicio AS hora, c.estado, u.nombre_completo 
         FROM citas c
@@ -508,9 +509,17 @@ def agenda():
         ORDER BY c.fecha_cita ASC
     """)
     citas = cursor.fetchall()
+    
+    # 2. Obtener solo las horas ocupadas para bloquear el formulario
+    # Nota: ajusta 'horario_inicio' si tu columna se llama distinto
+    cursor.execute("SELECT DISTINCT horario_inicio FROM citas")
+    # Convertimos los objetos time a string 'HH:MM'
+    ocupadas = [c['horario_inicio'].strftime("%H:%M") for c in cursor.fetchall()]
+    
     cursor.close()
     conn.close()
-    return render_template('agenda.html', citas=citas)
+    
+    return render_template('agenda.html', citas=citas, ocupadas=ocupadas)
 
 @app.route('/crear_cita', methods=['POST'])
 def crear_cita():
@@ -520,8 +529,7 @@ def crear_cita():
     fecha = request.form['fecha']
     hora_inicio = request.form['hora']
     
-    # Calculamos la hora de fin (asumiendo 2 horas de duración)
-    # Esto es una forma sencilla de manejar la hora
+    # Calcular hora fin (duración 2 horas)
     from datetime import datetime, timedelta
     t = datetime.strptime(hora_inicio, "%H:%M")
     hora_fin = (t + timedelta(hours=2)).strftime("%H:%M")
@@ -535,15 +543,14 @@ def crear_cita():
             VALUES (%s, %s, %s, %s, 'Confirmada')
         """, (id_usuario, fecha, hora_inicio, hora_fin))
         conn.commit()
+        # Redirigir con status de éxito para la alerta
+        return redirect(url_for('agenda', status='success'))
     except Exception as e:
         print(f"Error al agendar: {e}")
+        return redirect(url_for('agenda', status='error'))
     finally:
         cursor.close()
         conn.close()
-        
-    return redirect(url_for('agenda'))
-
-
 
 
 
