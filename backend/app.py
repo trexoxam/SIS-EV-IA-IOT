@@ -501,7 +501,7 @@ def agenda():
     conn = conectar()
     cursor = conn.cursor(dictionary=True)
     
-    # 1. Obtener todas las citas para la tabla
+    # 1. Obtener citas
     cursor.execute("""
         SELECT c.fecha_cita AS fecha, c.horario_inicio AS hora, c.estado, u.nombre_completo 
         FROM citas c
@@ -510,11 +510,20 @@ def agenda():
     """)
     citas = cursor.fetchall()
     
-    # 2. Obtener solo las horas ocupadas para bloquear el formulario
-    # Nota: ajusta 'horario_inicio' si tu columna se llama distinto
+    # 2. Obtener horas ocupadas de forma segura (sin importar si es time o timedelta)
     cursor.execute("SELECT DISTINCT horario_inicio FROM citas")
-    # Convertimos los objetos time a string 'HH:MM'
-    ocupadas = [c['horario_inicio'].strftime("%H:%M") for c in cursor.fetchall()]
+    datos = cursor.fetchall()
+    
+    ocupadas = []
+    for c in datos:
+        val = c['horario_inicio']
+        if isinstance(val, (str)): # Si llega como string
+            ocupadas.append(val[:5])
+        elif hasattr(val, 'strftime'): # Si es tipo time
+            ocupadas.append(val.strftime("%H:%M"))
+        else: # Si es timedelta
+            total_segundos = int(val.total_seconds())
+            ocupadas.append(f"{total_segundos // 3600:02}:{(total_segundos % 3600) // 60:02}")
     
     cursor.close()
     conn.close()
@@ -529,7 +538,6 @@ def crear_cita():
     fecha = request.form['fecha']
     hora_inicio = request.form['hora']
     
-    # Calcular hora fin (duración 2 horas)
     from datetime import datetime, timedelta
     t = datetime.strptime(hora_inicio, "%H:%M")
     hora_fin = (t + timedelta(hours=2)).strftime("%H:%M")
@@ -543,7 +551,6 @@ def crear_cita():
             VALUES (%s, %s, %s, %s, 'Confirmada')
         """, (id_usuario, fecha, hora_inicio, hora_fin))
         conn.commit()
-        # Redirigir con status de éxito para la alerta
         return redirect(url_for('agenda', status='success'))
     except Exception as e:
         print(f"Error al agendar: {e}")
