@@ -1,0 +1,19 @@
+<form action="/guardar_pregunta" method="POST">
+    <input type="text" name="nombre_examen" placeholder="Nombre del Examen" required>
+    <textarea name="pregunta" placeholder="Escribe la pregunta" required></textarea>
+    
+    <input type="text" name="opcion_a" placeholder="Opción 1 (A)" required>
+    <input type="text" name="opcion_b" placeholder="Opción 2 (B)" required>
+    <input type="text" name="opcion_c" placeholder="Opción 3 (C)" required>
+    <input type="text" name="opcion_d" placeholder="Opción 4 (D)" required>
+    
+    <label>¿Cuál es la respuesta correcta?</label>
+    <select name="respuesta_correcta">
+        <option value="a">Opción 1 (A)</option>
+        <option value="b">Opción 2 (B)</option>
+        <option value="c">Opción 3 (C)</option>
+        <option value="d">Opción 4 (D)</option>
+    </select>
+    
+    <button type="submit">Guardar Pregunta</button>
+</form>

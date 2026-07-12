@@ -575,5 +575,33 @@ def crear_cita():
     finally:
         cursor.close()
         conn.close()
+        
+@app.route('/guardar_pregunta', methods=['POST'])
+def guardar_pregunta():
+    nombre = request.form['nombre_examen']
+    pregunta = request.form['pregunta']
+    # Capturamos las 4 opciones
+    a = request.form['opcion_a']
+    b = request.form['opcion_b']
+    c = request.form['opcion_c']
+    d = request.form['opcion_d']
+    # Capturamos la letra (a, b, c o d) que el admin marcó como correcta
+    correcta = request.form['respuesta_correcta']
+
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO preguntas 
+        (nombre_examen, pregunta, opcion_a, opcion_b, opcion_c, opcion_d, respuesta_correcta)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+    """, (nombre, pregunta, a, b, c, d, correcta))
+    
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return "Pregunta y opciones guardadas correctamente."
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
