@@ -149,7 +149,33 @@ transition:.3s;
 background:#1d4ed8;
 transform:translateY(-2px);
 }
+/* Contenedor del botón */
+.boton-container {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
 
+/* Estilo del botón */
+.btn-admin {
+    display: inline-block;
+    background-color: #2563eb; /* Un azul profesional */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.btn-admin:hover {
+    background-color: #1d4ed8;
+}
+
+/* Asegurar que el header-card tenga espacio interno (padding) */
+.header-card {
+    padding: 20px;
+    margin-bottom: 20px;
+}
 /* RESPONSIVE */
 
 @media(max-width:768px){
