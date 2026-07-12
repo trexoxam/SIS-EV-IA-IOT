@@ -341,12 +341,26 @@ def anterior():
 def dashboard():
     conn = conectar()
     cursor = conn.cursor(dictionary=True)
-    # Traemos los últimos 5 resultados
+    
+    # Consulta 1: Resultados recientes
     cursor.execute("SELECT * FROM resultados_examen ORDER BY fecha_fin DESC LIMIT 5")
     resultados = cursor.fetchall()
+    
+    # Consulta 2: Próximas citas (Exámenes futuros)
+    cursor.execute("""
+        SELECT fecha_cita, horario_inicio, 'Examen Programado' AS nombre_examen 
+        FROM citas 
+        WHERE fecha_cita >= CURDATE() 
+        ORDER BY fecha_cita ASC 
+        LIMIT 3
+    """)
+    proximas_citas = cursor.fetchall()
+    
     cursor.close()
     conn.close()
-    return render_template('dashboard.html', resultados=resultados)
+    
+    return render_template('dashboard.html', resultados=resultados, proximas_citas=proximas_citas)
+
 
 @app.route('/crear_pregunta')
 def crear_pregunta():

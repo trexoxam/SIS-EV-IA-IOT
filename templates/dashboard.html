@@ -132,9 +132,17 @@ CP
 
 <h2>Próximos Exámenes</h2>
 
-<div class="exam">
-<h4>Examen Psicométrico</h4>
-15 Junio 2026 - 10:00 AM
+<div class="panel">
+    <h2>Próximas Exámenes</h2>
+
+    {% for cita in proximas_citas %}
+    <div class="exam">
+        <h4>{{ cita.nombre_examen }}</h4>
+        <p>{{ cita.fecha_cita }} - {{ cita.horario_inicio }}</p>
+    </div>
+    {% else %}
+    <p>No hay exámenes programados próximamente.</p>
+    {% endfor %}
 </div>
 
 <div class="exam">
