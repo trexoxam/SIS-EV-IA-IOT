@@ -6,6 +6,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from google import genai
 from google.genai import types
 import json
+
+from ia_generador import generar_pregunta
+from flask import jsonify
+
 app = Flask(
     __name__,
     template_folder="../templates",
@@ -361,7 +365,27 @@ def crear_pregunta():
     return render_template('crear_pregunta.html')
 
 @app.route('/generar_pregunta_ia', methods=['POST'])
+def generar_pregunta_ia():
 
+    try:
+
+        datos = request.get_json()
+
+        nombre_examen = datos.get("nombre_examen")
+        tema = datos.get("tema")
+
+        pregunta = generar_pregunta(
+            nombre_examen,
+            tema
+        )
+
+        return jsonify(pregunta)
+
+    except Exception as e:
+
+        return jsonify({
+            "error": str(e)
+        }), 500
 
 @app.route('/guardar_pregunta', methods=['POST'])
 def guardar_pregunta():
