@@ -3,7 +3,7 @@ import json
 
 # Coloca tu API Key
 client = genai.Client(
-    api_key="TU_API_KEY"
+    api_key="AQ.Ab8RN6KDuEIyevQiNvYaMZX9vGfotwBmV3dEPoQrngN4-8MZEw"
 )
 
 def generar_pregunta(nombre_examen, tema):
