@@ -204,11 +204,10 @@ def examen():
 
 @app.route('/guardar_respuesta', methods=['POST'])
 def guardar_respuesta():
-
     id_usuario = session['id_usuario']
-
     id_pregunta = request.form.get('id_pregunta')
     respuesta = request.form.get('respuesta')
+    nombre_examen = session.get('examen_actual')
 
     if not respuesta:
         return "Debes seleccionar una respuesta."
@@ -222,51 +221,35 @@ def guardar_respuesta():
         FROM respuestas_usuario
         WHERE id_usuario = %s
         AND id_pregunta = %s
-    """, (
-        id_usuario,
-        id_pregunta
-    ))
+    """, (id_usuario, id_pregunta))
 
     existe = cursor.fetchone()
 
     if existe:
-
         cursor.execute("""
             UPDATE respuestas_usuario
             SET respuesta_usuario = %s
             WHERE id_usuario = %s
             AND id_pregunta = %s
-        """, (
-            respuesta,
-            id_usuario,
-            id_pregunta
-        ))
-
+        """, (respuesta, id_usuario, id_pregunta))
     else:
-
         cursor.execute("""
             INSERT INTO respuestas_usuario (
                 id_usuario,
                 id_pregunta,
                 respuesta_usuario
             )
-            VALUES (%s,%s,%s)
-        """, (
-            id_usuario,
-            id_pregunta,
-            respuesta
-        ))
+            VALUES (%s, %s, %s)
+        """, (id_usuario, id_pregunta, respuesta))
 
     conn.commit()
 
-    nombre_examen = session.get('examen_actual')
-
+    # Contar el total de preguntas de ESTE EXAMEN ACTUAL
     cursor.execute("""
         SELECT COUNT(*) AS total
         FROM preguntas
         WHERE nombre_examen = %s
     """, (nombre_examen,))
-
     total = cursor.fetchone()['total']
 
     session['pregunta_actual'] += 1
@@ -274,6 +257,7 @@ def guardar_respuesta():
     cursor.close()
     conn.close()
 
+    # Si ya recorrió todas las preguntas del examen, pasamos a resultados
     if session['pregunta_actual'] >= total:
         return redirect(url_for('resultado'))
 
@@ -288,23 +272,30 @@ def resultado():
     conn = conectar()
     cursor = conn.cursor(dictionary=True)
 
-    # 1. Calculamos correctas e incorrectas
+    # 1. Calcular cuántas respuestas correctas obtuvo el usuario SÓLO para este examen
     cursor.execute("""
         SELECT COUNT(*) AS correctas
         FROM respuestas_usuario r
         INNER JOIN preguntas p ON r.id_pregunta = p.id_pregunta
-        WHERE r.id_usuario = %s AND r.respuesta_usuario = p.respuesta_correcta
-    """, (id_usuario,))
+        WHERE r.id_usuario = %s 
+          AND p.nombre_examen = %s 
+          AND r.respuesta_usuario = p.respuesta_correcta
+    """, (id_usuario, nombre_examen))
     correctas = cursor.fetchone()['correctas']
 
-    cursor.execute("SELECT COUNT(*) AS total FROM respuestas_usuario WHERE id_usuario = %s", (id_usuario,))
+    # 2. Calcular el total de preguntas reales de este examen
+    cursor.execute("""
+        SELECT COUNT(*) AS total 
+        FROM preguntas 
+        WHERE nombre_examen = %s
+    """, (nombre_examen,))
     total = cursor.fetchone()['total']
     
-    incorrectas = total - correctas
+    # Si por alguna razón respondieron de más o hay desfase, evitamos negativos
+    incorrectas = max(0, total - correctas)
     calificacion = round((correctas / total) * 100) if total > 0 else 0
 
-    # 2. INSERTAMOS usando las variables que ya calculamos
-    # Ahora sí incluimos aciertos e incorrectas (que es tu columna 'errores')
+    # 3. Guardar el resultado limpio en la tabla resultados_examen
     cursor.execute("""
         INSERT INTO resultados_examen (id_usuario, nombre_examen, calificacion, aciertos, errores, fecha_fin) 
         VALUES (%s, %s, %s, %s, %s, NOW())
