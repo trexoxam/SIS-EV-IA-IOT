@@ -46,6 +46,32 @@
 
             <div class="form-group">
                 <label for="pregunta">
+
+                    <div class="form-group">
+
+    <label for="tema">
+        Tema de la pregunta
+    </label>
+
+    <input
+        type="text"
+        id="tema"
+        placeholder="Ejemplo: Variables en Python"
+    >
+
+</div>
+
+<div class="form-group">
+
+    <button
+        type="button"
+        id="btnIA"
+        class="btn-guardar"
+    >
+        ✨ Generar con IA
+    </button>
+
+</div>
                     Pregunta
                 </label>
 
@@ -165,5 +191,7 @@
 
 </div>
 
+
+<script src="{{ url_for('static', filename='js/crear_pregunta.js') }}"></script>
 </body>
 </html>
