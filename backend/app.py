@@ -7,7 +7,8 @@ from google import genai
 from google.genai import types
 import json
 
-from ia_generador import generar_pregunta
+from backend.ia_generador import generar_pregunta
+
 from flask import jsonify
 
 app = Flask(
