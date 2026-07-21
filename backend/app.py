@@ -3,7 +3,9 @@ from datetime import datetime, timedelta
 import mysql.connector
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from google import genai
+from google.genai import types
+import json
 app = Flask(
     __name__,
     template_folder="../templates",
@@ -11,6 +13,7 @@ app = Flask(
 )
 
 app.secret_key = "examai_2026"
+client = genai.Client(api_key="AQ.Ab8RN6KDuEIyevQiNvYaMZX9vGfotwBmV3dEPoQrngN4-8MZEw")
 
 def conectar():
     return mysql.connector.connect(
@@ -356,6 +359,9 @@ def dashboard():
 @app.route('/crear_pregunta')
 def crear_pregunta():
     return render_template('crear_pregunta.html')
+
+@app.route('/generar_pregunta_ia', methods=['POST'])
+
 
 @app.route('/guardar_pregunta', methods=['POST'])
 def guardar_pregunta():
