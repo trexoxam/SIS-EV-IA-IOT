@@ -366,6 +366,7 @@ def dashboard():
     # Consulta 3: Ranking (solo la mejor calificación de cada usuario)
     cursor.execute("""
         SELECT
+            u.id_usuario,
             u.nombre_completo,
             r.nombre_examen,
             r.calificacion
