@@ -155,12 +155,12 @@ CP
 
     <div class="panel">
 
-    <h2>🏆 Ranking de Aspirantes</h2>
+    <h2>Ranking de Aspirantes</h2>
 
     <table>
         <thead>
             <tr>
-                <th>Pos.</th>
+                <th>Posición</th>
                 <th>Aspirante</th>
                 <th>Examen</th>
                 <th>Calificación</th>
@@ -170,21 +170,10 @@ CP
         <tbody>
             {% for usuario in ranking %}
             <tr>
-                <td>
-                    {% if loop.index == 1 %}
-                        🥇
-                    {% elif loop.index == 2 %}
-                        🥈
-                    {% elif loop.index == 3 %}
-                        🥉
-                    {% else %}
-                        {{ loop.index }}
-                    {% endif %}
-                </td>
-
+                <td>{{ loop.index }}</td>
                 <td>{{ usuario.nombre_completo }}</td>
                 <td>{{ usuario.nombre_examen }}</td>
-                <td><strong>{{ usuario.calificacion }}%</strong></td>
+                <td>{{ usuario.calificacion }}%</td>
             </tr>
             {% else %}
             <tr>
