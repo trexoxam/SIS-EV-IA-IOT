@@ -425,7 +425,10 @@ def asignar_cita():
         cursor.close()
         conn.close()
 
-        flash('Este usuario ya tiene una cita pendiente.', 'warning')
+        flash(
+            'Este usuario ya tiene una cita pendiente.',
+            'warning'
+        )
 
         return redirect(url_for('dashboard'))
 
@@ -482,12 +485,12 @@ def asignar_cita():
                 cursor.close()
                 conn.close()
 
-                return redirect(
-    url_for(
-        'dashboard',
-        mensaje='Cita asignada correctamente.'
-    )
-)
+                flash(
+                    'La cita del usuario se guardó correctamente.',
+                    'success'
+                )
+
+                return redirect(url_for('dashboard'))
 
     cursor.close()
     conn.close()
