@@ -340,26 +340,52 @@ def anterior():
 def dashboard():
     conn = conectar()
     cursor = conn.cursor(dictionary=True)
-    
+
     # Consulta 1: Resultados recientes
-    cursor.execute("SELECT * FROM resultados_examen ORDER BY fecha_fin DESC LIMIT 5")
-    resultados = cursor.fetchall()
-    
-    # Consulta 2: Próximas citas (Exámenes futuros)
     cursor.execute("""
-        SELECT fecha_cita, horario_inicio, 'Examen Programado' AS nombre_examen 
-        FROM citas 
-        WHERE fecha_cita >= CURDATE() 
-        ORDER BY fecha_cita ASC 
+        SELECT *
+        FROM resultados_examen
+        ORDER BY fecha_fin DESC
+        LIMIT 5
+    """)
+    resultados = cursor.fetchall()
+
+    # Consulta 2: Próximas citas
+    cursor.execute("""
+        SELECT
+            fecha_cita,
+            horario_inicio,
+            'Examen Programado' AS nombre_examen
+        FROM citas
+        WHERE fecha_cita >= CURDATE()
+        ORDER BY fecha_cita ASC
         LIMIT 3
     """)
     proximas_citas = cursor.fetchall()
-    
+
+    # Consulta 3: Ranking (usuarios con calificación de 75 o más)
+    cursor.execute("""
+        SELECT
+            u.nombre_completo,
+            r.nombre_examen,
+            r.calificacion
+        FROM resultados_examen r
+        INNER JOIN usuarios u
+            ON r.id_usuario = u.id_usuario
+        WHERE r.calificacion >= 75
+        ORDER BY r.calificacion DESC
+    """)
+    ranking = cursor.fetchall()
+
     cursor.close()
     conn.close()
-    
-    return render_template('dashboard.html', resultados=resultados, proximas_citas=proximas_citas)
 
+    return render_template(
+        'dashboard.html',
+        resultados=resultados,
+        proximas_citas=proximas_citas,
+        ranking=ranking
+    )
 
 @app.route('/crear_pregunta')
 def crear_pregunta():
