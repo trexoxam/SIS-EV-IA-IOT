@@ -404,19 +404,22 @@ def asignar_cita():
     conn = conectar()
     cursor = conn.cursor(dictionary=True)
 
-    # Verificar si el usuario ya tiene una cita
+    # Verificar si el usuario ya tiene una cita pendiente
     cursor.execute("""
-    SELECT *
-    FROM citas
-    WHERE id_usuario = %s
-    AND estado = 'Pendiente'
-""", (id_usuario,))
+        SELECT *
+        FROM citas
+        WHERE id_usuario = %s
+        AND estado = 'Pendiente'
+    """, (id_usuario,))
 
     cita = cursor.fetchone()
 
     if cita:
         cursor.close()
         conn.close()
+
+        flash('Este usuario ya tiene una cita pendiente.', 'warning')
+
         return redirect(url_for('dashboard'))
 
     # Horarios disponibles
@@ -427,7 +430,7 @@ def asignar_cita():
         ('15:00:00', '17:00:00')
     ]
 
-    # Buscar una fecha disponible dentro de los próximos días
+    # Buscar una fecha disponible dentro de los próximos 30 días
     for dias in range(1, 31):
 
         fecha = date.today() + timedelta(days=dias)
@@ -451,31 +454,41 @@ def asignar_cita():
 
                 cursor.execute("""
                     INSERT INTO citas
-(
-    id_usuario,
-    fecha_cita,
-    horario_inicio,
-    horario_fin,
-    estado
-)
-VALUES (%s, %s, %s, %s, %s)
+                    (
+                        id_usuario,
+                        fecha_cita,
+                        horario_inicio,
+                        horario_fin,
+                        estado
+                    )
+                    VALUES (%s, %s, %s, %s, %s)
                 """, (
-    id_usuario,
-    fecha,
-    horario_inicio,
-    horario_fin,
-    'Pendiente'
-))
+                    id_usuario,
+                    fecha,
+                    horario_inicio,
+                    horario_fin,
+                    'Pendiente'
+                ))
 
                 conn.commit()
 
                 cursor.close()
                 conn.close()
 
+                flash(
+                    'Cita asignada correctamente.',
+                    'success'
+                )
+
                 return redirect(url_for('dashboard'))
 
     cursor.close()
     conn.close()
+
+    flash(
+        'No se encontró un horario disponible.',
+        'warning'
+    )
 
     return redirect(url_for('dashboard'))
 
