@@ -6,47 +6,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>ExamIA | Dashboard</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}">
 
 </head>
 
 <body>
 
-{% with mensajes = get_flashed_messages(with_categories=true) %}
-    {% if mensajes %}
-        {% for categoria, mensaje in mensajes %}
-            <div class="mensaje {{ categoria }}">
-                {{ mensaje }}
-            </div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-
 <!-- SIDEBAR -->
 
 <div class="sidebar">
 
-<div class="logo">
-🧠 Exam<span>IA</span>
-</div>
+    <div class="logo">
+        🧠 Exam<span>IA</span>
+    </div>
 
-<div class="menu">
+    <div class="menu">
 
-<a href="#" class="active">🏠 Dashboard</a>
-<a href="#">👤 Aspirantes</a>
-<a href="#">📅 Citas</a>
-<a href="/examenes">📝 Exámenes</a>
-<a href="#">📹 Supervisión</a>
+        <a href="#" class="active">🏠 Dashboard</a>
+        <a href="#">👤 Aspirantes</a>
+        <a href="#">📅 Citas</a>
+        <a href="/examenes">📝 Exámenes</a>
+        <a href="#">📹 Supervisión</a>
 
-<div class="menu-title">
-Administración
-</div>
+        <div class="menu-title">
+            Administración
+        </div>
 
-<a href="#">📊 Reportes</a>
-<a href="#">🚨 Alertas</a>
-<a href="#">⚙ Configuración</a>
+        <a href="#">📊 Reportes</a>
+        <a href="#">🚨 Alertas</a>
+        <a href="#">⚙ Configuración</a>
 
-</div>
+    </div>
 
 </div>
 
@@ -54,261 +46,367 @@ Administración
 
 <div class="main">
 
-<div class="topbar">
+    <div class="topbar">
 
-<div>
-<h1>Dashboard General</h1>
-<p>Bienvenido al sistema inteligente de supervisión.</p>
-</div>
+        <div>
+            <h1>Dashboard General</h1>
+            <p>Bienvenido al sistema inteligente de supervisión.</p>
+        </div>
 
-<div class="user">
+        <div class="user">
 
-<div>
-<strong>Carlos Perea</strong>
-<br>
-Administrador
-</div>
+            <div>
+                <strong>Carlos Perea</strong>
+                <br>
+                Administrador
+            </div>
 
-<div class="avatar">
-CP
-</div>
+            <div class="avatar">
+                CP
+            </div>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
-<!-- STATS -->
+    <!-- STATS -->
 
-<div class="cards">
+    <div class="cards">
 
-<div class="card">
-<div class="card-title">Aspirantes Registrados</div>
-<div class="card-number">324</div>
-<div class="card-status">+12 este mes</div>
-</div>
+        <div class="card">
+            <div class="card-title">
+                Aspirantes Registrados
+            </div>
 
-<div class="card">
-<div class="card-title">Exámenes Activos</div>
-<div class="card-number">28</div>
-<div class="card-status">Supervisión en tiempo real</div>
-</div>
+            <div class="card-number">
+                324
+            </div>
 
-<div class="card">
-<div class="card-title">Alertas IA</div>
-<div class="card-number">15</div>
-<div class="card-status">3 críticas detectadas</div>
-</div>
+            <div class="card-status">
+                +12 este mes
+            </div>
+        </div>
 
-<div class="card">
-<div class="card-title">Dispositivos IoT</div>
-<div class="card-number">12</div>
-<div class="card-status">100% operativos</div>
-</div>
+        <div class="card">
+            <div class="card-title">
+                Exámenes Activos
+            </div>
 
-</div>
+            <div class="card-number">
+                28
+            </div>
 
-<!-- GRID -->
+            <div class="card-status">
+                Supervisión en tiempo real
+            </div>
+        </div>
 
-<div class="dashboard-grid">
+        <div class="card">
+            <div class="card-title">
+                Alertas IA
+            </div>
 
-<!-- IZQUIERDA -->
+            <div class="card-number">
+                15
+            </div>
 
-<div>
+            <div class="card-status">
+                3 críticas detectadas
+            </div>
+        </div>
 
-<div class="panel">
+        <div class="card">
+            <div class="card-title">
+                Dispositivos IoT
+            </div>
 
-<h2>Actividad Reciente</h2>
+            <div class="card-number">
+                12
+            </div>
 
-<table>
-    <tr>
-        <th>Fecha/Hora</th>
-        <th>Examen</th>
-        <th>Calificación</th>
-    </tr>
+            <div class="card-status">
+                100% operativos
+            </div>
+        </div>
 
-    {% for res in resultados %}
-    <tr>
-        <td>{{ res.fecha_fin.strftime('%H:%M:%S') }}</td>
-        <td>{{ res.nombre_examen }}</td>
-        <td>{{ res.calificacion }}%</td>
-    </tr>
-    {% endfor %}
-</table>
+    </div>
 
-</div>
+    <!-- GRID -->
 
-<br>
+    <div class="dashboard-grid">
 
-<div class="panel">
+        <!-- IZQUIERDA -->
 
-<h2>Próximos Exámenes</h2>
+        <div>
 
-{% for cita in proximas_citas %}
+            <!-- ACTIVIDAD RECIENTE -->
 
-<div class="exam">
+            <div class="panel">
 
-    <h4>{{ cita.nombre_examen }}</h4>
+                <h2>
+                    Actividad Reciente
+                </h2>
 
-    <p>
-        {{ cita.fecha_cita }} -
-        {{ cita.horario_inicio }}
-    </p>
+                <table>
 
-</div>
+                    <tr>
+                        <th>Fecha/Hora</th>
+                        <th>Examen</th>
+                        <th>Calificación</th>
+                    </tr>
 
-{% else %}
+                    {% for res in resultados %}
 
-<p>No hay exámenes programados próximamente.</p>
+                    <tr>
 
-{% endfor %}
+                        <td>
+                            {{ res.fecha_fin.strftime('%H:%M:%S') }}
+                        </td>
 
-</div>
+                        <td>
+                            {{ res.nombre_examen }}
+                        </td>
 
-</div>
+                        <td>
+                            {{ res.calificacion }}%
+                        </td>
 
-<!-- DERECHA -->
+                    </tr>
 
-<div>
+                    {% endfor %}
 
-<!-- RANKING -->
+                </table>
 
-<div class="panel">
+            </div>
 
-<h2>Ranking de Aspirantes</h2>
+            <br>
 
-<table>
+            <!-- PRÓXIMOS EXÁMENES -->
 
-<thead>
+            <div class="panel">
 
-<tr>
-    <th>Posición</th>
-    <th>Aspirante</th>
-    <th>Examen</th>
-    <th>Calificación</th>
-    <th>Acción</th>
-</tr>
+                <h2>
+                    Próximos Exámenes
+                </h2>
 
-</thead>
+                {% for cita in proximas_citas %}
 
-<tbody>
+                <div class="exam">
 
-{% for usuario in ranking %}
+                    <h4>
+                        {{ cita.nombre_examen }}
+                    </h4>
 
-<tr>
+                    <p>
+                        {{ cita.fecha_cita }}
+                        -
+                        {{ cita.horario_inicio }}
+                    </p>
 
-    <td>{{ loop.index }}</td>
+                </div>
 
-    <td>
-        {{ usuario.nombre_completo }}
-    </td>
+                {% else %}
 
-    <td>
-        {{ usuario.nombre_examen }}
-    </td>
+                <p>
+                    No hay exámenes programados próximamente.
+                </p>
 
-    <td>
-        {{ usuario.calificacion }}%
-    </td>
+                {% endfor %}
 
-    <td>
+            </div>
 
-        <form
-            action="{{ url_for('asignar_cita') }}"
-            method="POST"
-        >
+        </div>
 
-            <input
-                type="hidden"
-                name="id_usuario"
-                value="{{ usuario.id_usuario }}"
-            >
+        <!-- DERECHA -->
 
-            <button type="submit">
-                Asignar cita
-            </button>
+        <div>
 
-        </form>
+            <!-- RANKING -->
 
-    </td>
+            <div class="panel">
 
-</tr>
+                <h2>
+                    Ranking de Aspirantes
+                </h2>
 
-{% else %}
+                <table>
 
-<tr>
+                    <thead>
 
-    <td
-        colspan="5"
-        style="text-align:center;"
-    >
-        No hay aspirantes con una calificación mayor o igual a 75%.
-    </td>
+                        <tr>
 
-</tr>
+                            <th>
+                                Posición
+                            </th>
 
-{% endfor %}
+                            <th>
+                                Aspirante
+                            </th>
 
-</tbody>
+                            <th>
+                                Examen
+                            </th>
 
-</table>
+                            <th>
+                                Calificación
+                            </th>
 
-</div>
+                            <th>
+                                Acción
+                            </th>
 
-<br>
+                        </tr>
 
-<!-- ALERTAS -->
+                    </thead>
 
-<div class="panel">
+                    <tbody>
 
-<h2>Alertas Recientes</h2>
+                        {% for usuario in ranking %}
 
-<div class="alert high">
-🚨 Posible intento de copia detectado.
-</div>
+                        <tr>
 
-<div class="alert medium">
-⚠ Mirada fuera de pantalla por 12 segundos.
-</div>
+                            <td>
+                                {{ loop.index }}
+                            </td>
 
-<div class="alert low">
-✅ Examen completado correctamente.
-</div>
+                            <td>
+                                {{ usuario.nombre_completo }}
+                            </td>
 
-</div>
+                            <td>
+                                {{ usuario.nombre_examen }}
+                            </td>
 
-<br>
+                            <td>
+                                {{ usuario.calificacion }}%
+                            </td>
 
-<!-- ESTADO IOT -->
+                            <td>
 
-<div class="panel">
+                                <form
+                                    action="{{ url_for('asignar_cita') }}"
+                                    method="POST"
+                                    onsubmit="alert('La cita del usuario se guardó correctamente.');"
+                                >
 
-<h2>Estado IoT</h2>
+                                    <input
+                                        type="hidden"
+                                        name="id_usuario"
+                                        value="{{ usuario.id_usuario }}"
+                                    >
 
-<div class="device">
-<span>ESP32-CAM #01</span>
-<span class="online">Online</span>
-</div>
+                                    <button type="submit">
+                                        Asignar cita
+                                    </button>
 
-<div class="device">
-<span>ESP32-CAM #02</span>
-<span class="online">Online</span>
-</div>
+                                </form>
 
-<div class="device">
-<span>Servidor IA</span>
-<span class="online">Online</span>
-</div>
+                            </td>
 
-<div class="device">
-<span>Sensor Biométrico</span>
-<span class="offline">Offline</span>
-</div>
+                        </tr>
 
-</div>
+                        {% else %}
 
-</div>
+                        <tr>
 
-</div>
+                            <td
+                                colspan="5"
+                                style="text-align:center;"
+                            >
+
+                                No hay aspirantes con una calificación mayor o igual a 75%.
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <br>
+
+            <!-- ALERTAS -->
+
+            <div class="panel">
+
+                <h2>
+                    Alertas Recientes
+                </h2>
+
+                <div class="alert high">
+                    🚨 Posible intento de copia detectado.
+                </div>
+
+                <div class="alert medium">
+                    ⚠ Mirada fuera de pantalla por 12 segundos.
+                </div>
+
+                <div class="alert low">
+                    ✅ Examen completado correctamente.
+                </div>
+
+            </div>
+
+            <br>
+
+            <!-- ESTADO IOT -->
+
+            <div class="panel">
+
+                <h2>
+                    Estado IoT
+                </h2>
+
+                <div class="device">
+                    <span>
+                        ESP32-CAM #01
+                    </span>
+
+                    <span class="online">
+                        Online
+                    </span>
+                </div>
+
+                <div class="device">
+                    <span>
+                        ESP32-CAM #02
+                    </span>
+
+                    <span class="online">
+                        Online
+                    </span>
+                </div>
+
+                <div class="device">
+                    <span>
+                        Servidor IA
+                    </span>
+
+                    <span class="online">
+                        Online
+                    </span>
+                </div>
+
+                <div class="device">
+                    <span>
+                        Sensor Biométrico
+                    </span>
+
+                    <span class="offline">
+                        Offline
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
