@@ -450,19 +450,21 @@ def asignar_cita():
 
                 cursor.execute("""
                     INSERT INTO citas
-                    (
-                        id_usuario,
-                        fecha_cita,
-                        horario_inicio,
-                        horario_fin
-                    )
-                    VALUES (%s, %s, %s, %s)
+(
+    id_usuario,
+    fecha_cita,
+    horario_inicio,
+    horario_fin,
+    estado
+)
+VALUES (%s, %s, %s, %s, %s)
                 """, (
-                    id_usuario,
-                    fecha,
-                    horario_inicio,
-                    horario_fin
-                ))
+    id_usuario,
+    fecha,
+    horario_inicio,
+    horario_fin,
+    'Pendiente'
+))
 
                 conn.commit()
 
