@@ -396,6 +396,33 @@ def dashboard():
         proximas_citas=proximas_citas,
         ranking=ranking
     )
+@app.route('/asignar_cita', methods=['POST'])
+def asignar_cita():
+
+    id_usuario = request.form['id_usuario']
+
+    conn = conectar()
+    cursor = conn.cursor(dictionary=True)
+
+    # Verificar si el usuario ya tiene una cita
+    cursor.execute("""
+        SELECT *
+        FROM citas
+        WHERE id_usuario = %s
+    """, (id_usuario,))
+
+    cita = cursor.fetchone()
+
+    if cita:
+        cursor.close()
+        conn.close()
+        return redirect(url_for('dashboard'))
+
+    # Por ahora solo regresamos al dashboard
+    cursor.close()
+    conn.close()
+
+    return redirect(url_for('dashboard'))
 
 @app.route('/crear_pregunta')
 def crear_pregunta():
