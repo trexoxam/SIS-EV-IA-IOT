@@ -363,7 +363,7 @@ def dashboard():
     """)
     proximas_citas = cursor.fetchall()
 
-    # Consulta 3: Ranking (usuarios con calificación de 75 o más)
+    # Consulta 3: Ranking (solo la mejor calificación de cada usuario)
     cursor.execute("""
         SELECT
             u.nombre_completo,
@@ -372,8 +372,17 @@ def dashboard():
         FROM resultados_examen r
         INNER JOIN usuarios u
             ON r.id_usuario = u.id_usuario
+        INNER JOIN (
+            SELECT
+                id_usuario,
+                MAX(calificacion) AS mejor_calificacion
+            FROM resultados_examen
+            GROUP BY id_usuario
+        ) mejores
+            ON r.id_usuario = mejores.id_usuario
+           AND r.calificacion = mejores.mejor_calificacion
         WHERE r.calificacion >= 75
-        ORDER BY r.calificacion DESC
+        ORDER BY r.calificacion DESC, u.nombre_completo ASC
     """)
     ranking = cursor.fetchall()
 
