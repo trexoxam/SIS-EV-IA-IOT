@@ -12,15 +12,11 @@
 
 <body>
 
-{% with mensajes = get_flashed_messages(with_categories=true) %}
-    {% if mensajes %}
-        {% for categoria, mensaje in mensajes %}
-            <div class="mensaje {{ categoria }}">
-                {{ mensaje }}
-            </div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
+{% if mensaje %}
+    <div class="mensaje success">
+        {{ mensaje }}
+    </div>
+{% endif %}
 
 <!-- SIDEBAR -->
 

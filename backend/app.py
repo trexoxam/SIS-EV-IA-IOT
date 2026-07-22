@@ -338,6 +338,10 @@ def anterior():
 
 @app.route('/dashboard')
 def dashboard():
+
+    # Recibir mensaje de confirmación desde la URL
+    mensaje = request.args.get('mensaje')
+
     conn = conectar()
     cursor = conn.cursor(dictionary=True)
 
@@ -363,7 +367,8 @@ def dashboard():
     """)
     proximas_citas = cursor.fetchall()
 
-    # Consulta 3: Ranking (solo la mejor calificación de cada usuario)
+    # Consulta 3: Ranking
+    # Solo la mejor calificación de cada usuario
     cursor.execute("""
         SELECT
             u.id_usuario,
@@ -383,7 +388,8 @@ def dashboard():
             ON r.id_usuario = mejores.id_usuario
            AND r.calificacion = mejores.mejor_calificacion
         WHERE r.calificacion >= 75
-        ORDER BY r.calificacion DESC, u.nombre_completo ASC
+        ORDER BY r.calificacion DESC,
+                 u.nombre_completo ASC
     """)
     ranking = cursor.fetchall()
 
@@ -394,7 +400,8 @@ def dashboard():
         'dashboard.html',
         resultados=resultados,
         proximas_citas=proximas_citas,
-        ranking=ranking
+        ranking=ranking,
+        mensaje=mensaje
     )
 @app.route('/asignar_cita', methods=['POST'])
 def asignar_cita():
@@ -475,9 +482,12 @@ def asignar_cita():
                 cursor.close()
                 conn.close()
 
-                flash('CITA ASIGNADA CORRECTAMENTE', 'success')
-
-                return redirect(url_for('dashboard'))
+                return redirect(
+    url_for(
+        'dashboard',
+        mensaje='Cita asignada correctamente.'
+    )
+)
 
     cursor.close()
     conn.close()
