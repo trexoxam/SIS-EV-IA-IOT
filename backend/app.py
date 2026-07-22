@@ -406,10 +406,11 @@ def asignar_cita():
 
     # Verificar si el usuario ya tiene una cita
     cursor.execute("""
-        SELECT *
-        FROM citas
-        WHERE id_usuario = %s
-    """, (id_usuario,))
+    SELECT *
+    FROM citas
+    WHERE id_usuario = %s
+    AND estado = 'Pendiente'
+""", (id_usuario,))
 
     cita = cursor.fetchone()
 
