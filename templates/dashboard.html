@@ -153,6 +153,53 @@ CP
 
 <div>
 
+    <div class="panel">
+
+    <h2>🏆 Ranking de Aspirantes</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Pos.</th>
+                <th>Aspirante</th>
+                <th>Examen</th>
+                <th>Calificación</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for usuario in ranking %}
+            <tr>
+                <td>
+                    {% if loop.index == 1 %}
+                        🥇
+                    {% elif loop.index == 2 %}
+                        🥈
+                    {% elif loop.index == 3 %}
+                        🥉
+                    {% else %}
+                        {{ loop.index }}
+                    {% endif %}
+                </td>
+
+                <td>{{ usuario.nombre_completo }}</td>
+                <td>{{ usuario.nombre_examen }}</td>
+                <td><strong>{{ usuario.calificacion }}%</strong></td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" style="text-align:center;">
+                    No hay aspirantes con una calificación mayor o igual a 75%.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+</div>
+
+<br>
 
 <div class="panel">
 
