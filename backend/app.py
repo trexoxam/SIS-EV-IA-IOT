@@ -418,11 +418,64 @@ def asignar_cita():
         conn.close()
         return redirect(url_for('dashboard'))
 
-    # Por ahora solo regresamos al dashboard
+    # Horarios disponibles
+    horarios = [
+        ('09:00:00', '11:00:00'),
+        ('11:00:00', '13:00:00'),
+        ('13:00:00', '15:00:00'),
+        ('15:00:00', '17:00:00')
+    ]
+
+    # Buscar una fecha disponible dentro de los próximos días
+    for dias in range(1, 31):
+
+        fecha = date.today() + timedelta(days=dias)
+
+        # No asignar citas en sábado ni domingo
+        if fecha.weekday() >= 5:
+            continue
+
+        for horario_inicio, horario_fin in horarios:
+
+            cursor.execute("""
+                SELECT *
+                FROM citas
+                WHERE fecha_cita = %s
+                AND horario_inicio = %s
+            """, (fecha, horario_inicio))
+
+            horario_ocupado = cursor.fetchone()
+
+            if not horario_ocupado:
+
+                cursor.execute("""
+                    INSERT INTO citas
+                    (
+                        id_usuario,
+                        fecha_cita,
+                        horario_inicio,
+                        horario_fin
+                    )
+                    VALUES (%s, %s, %s, %s)
+                """, (
+                    id_usuario,
+                    fecha,
+                    horario_inicio,
+                    horario_fin
+                ))
+
+                conn.commit()
+
+                cursor.close()
+                conn.close()
+
+                return redirect(url_for('dashboard'))
+
     cursor.close()
     conn.close()
 
     return redirect(url_for('dashboard'))
+
 
 @app.route('/crear_pregunta')
 def crear_pregunta():
