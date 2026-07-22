@@ -1,63 +1,107 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <title>ExamIA | Agenda</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/agenda.css') }}">
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ExamIA | Mi Agenda</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/agenda.css') }}">
+
 </head>
+
 <body>
-    <header>
-        <div class="logo">🧠 Exam<span>IA</span></div>
-        <h3>Agenda Inteligente</h3>
-    </header>
 
-    <div class="container">
-        <div class="panel">
-            <h2>Seleccionar Fecha</h2>
-            <form action="{{ url_for('agenda') }}" method="POST">
-                <label>Consultar disponibilidad para:</label>
-                <input type="date" name="fecha_consulta" value="{{ fecha_sel }}" onchange="this.form.submit()">
-            </form>
-        </div>
+<header>
 
-        <div class="panel">
-            <h2>Agendar Cita</h2>
-            <form action="{{ url_for('crear_cita') }}" method="POST">
-                <input type="hidden" name="fecha" value="{{ fecha_sel }}">
-                <p>Fecha seleccionada: <strong>{{ fecha_sel }}</strong></p>
-                
-                <label>Horario:</label>
-                <select name="hora" required>
-                    <option value="12:00" {% if '12:00' in ocupadas %}disabled{% endif %}>12:00 - 14:00 {% if '12:00' in ocupadas %}(Ocupado){% endif %}</option>
-                    <option value="14:00" {% if '14:00' in ocupadas %}disabled{% endif %}>14:00 - 16:00 {% if '14:00' in ocupadas %}(Ocupado){% endif %}</option>
-                    <option value="16:00" {% if '16:00' in ocupadas %}disabled{% endif %}>16:00 - 18:00 {% if '16:00' in ocupadas %}(Ocupado){% endif %}</option>
-                </select>
-                <br><br>
-                <button type="submit">Agendar Cita</button>
-            </form>
-        </div>
+<div class="logo">
 
-        <div class="panel">
-            <h2>Próximas Citas</h2>
-            <table>
-                <tr><th>Aspirante</th><th>Fecha</th><th>Hora</th><th>Estado</th></tr>
-                {% for cita in citas %}
-                <tr>
-                    <td>{{ cita.nombre_completo }}</td>
-                    <td>{{ cita.fecha }}</td>
-                    <td>{{ cita.hora }}</td>
-                    <td>{{ cita.estado }}</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-    </div>
+🧠 Exam<span>IA</span>
 
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('status') === 'success') {
-            alert("¡Cita elegida correctamente!");
-        }
-    </script>
+</div>
+
+<h3>Mi Agenda</h3>
+
+</header>
+
+<div class="container">
+
+<div class="panel">
+
+<h2>Mi Cita</h2>
+
+{% if cita %}
+
+<div class="info">
+
+<div class="dato">
+
+<h4>📅 Fecha</h4>
+
+<p>{{ cita.fecha_cita }}</p>
+
+</div>
+
+<div class="dato">
+
+<h4>🕒 Horario</h4>
+
+<p>
+
+{{ cita.horario_inicio }}
+-
+
+{{ cita.horario_fin }}
+
+</p>
+
+</div>
+
+<div class="dato">
+
+<h4>📌 Estado</h4>
+
+<p class="estado">
+
+{{ cita.estado }}
+
+</p>
+
+</div>
+
+</div>
+
+<div class="mensaje">
+
+✅ Preséntate 15 minutos antes de tu cita.
+
+</div>
+
+{% else %}
+
+<div class="sin-cita">
+
+<h3>No tienes una cita asignada.</h3>
+
+<p>
+
+Cuando el administrador te asigne una cita,
+la información aparecerá aquí.
+
+</p>
+
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+
 </body>
+
 </html>

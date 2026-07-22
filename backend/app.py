@@ -673,43 +673,37 @@ def registro():
     return redirect(url_for('login'))
 
 
-@app.route('/agenda', methods=['GET', 'POST'])
+@app.route('/agenda')
 def agenda():
-    if 'id_usuario' not in session: return redirect(url_for('login'))
-    
-    # Si el usuario envía una fecha por formulario, la usamos; si no, usamos hoy
-    fecha_consulta = request.form.get('fecha_consulta') or datetime.now().strftime("%Y-%m-%d")
-    
+
+    if 'id_usuario' not in session:
+        return redirect(url_for('login'))
+
     conn = conectar()
     cursor = conn.cursor(dictionary=True)
-    
-    # 1. Traer todas las citas (para la tabla, sin filtrar por día)
+
+    # Obtener la cita del usuario que inició sesión
     cursor.execute("""
-        SELECT c.fecha_cita AS fecha, c.horario_inicio AS hora, c.estado, u.nombre_completo 
-        FROM citas c
-        INNER JOIN usuarios u ON c.id_usuario = u.id_usuario
-        ORDER BY c.fecha_cita ASC
-    """)
-    citas = cursor.fetchall()
-    
-    # 2. Traer HORAS OCUPADAS SOLO PARA LA FECHA SELECCIONADA
-    cursor.execute("SELECT horario_inicio FROM citas WHERE fecha_cita = %s", (fecha_consulta,))
-    datos = cursor.fetchall()
-    
-    ocupadas = []
-    for c in datos:
-        val = c['horario_inicio']
-        # Usamos la misma lógica robusta de conversión que ya tienes
-        if hasattr(val, 'strftime'):
-            ocupadas.append(val.strftime("%H:%M"))
-        else:
-            total_segundos = int(val.total_seconds())
-            ocupadas.append(f"{total_segundos // 3600:02}:{(total_segundos % 3600) // 60:02}")
-    
+        SELECT
+            fecha_cita,
+            horario_inicio,
+            horario_fin,
+            estado
+        FROM citas
+        WHERE id_usuario = %s
+        ORDER BY fecha_cita ASC
+        LIMIT 1
+    """, (session['id_usuario'],))
+
+    cita = cursor.fetchone()
+
     cursor.close()
     conn.close()
-    
-    return render_template('agenda.html', citas=citas, ocupadas=ocupadas, fecha_sel=fecha_consulta)
+
+    return render_template(
+        'agenda.html',
+        cita=cita
+    )
 
 @app.route('/crear_cita', methods=['POST'])
 def crear_cita():
