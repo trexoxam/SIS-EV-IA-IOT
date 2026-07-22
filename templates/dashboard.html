@@ -115,6 +115,7 @@ CP
         <th>Examen</th>
         <th>Calificación</th>
     </tr>
+
     {% for res in resultados %}
     <tr>
         <td>{{ res.fecha_fin.strftime('%H:%M:%S') }}</td>
@@ -132,18 +133,24 @@ CP
 
 <h2>Próximos Exámenes</h2>
 
-<div class="panel">
-    <h2>Próximas Exámenes</h2>
+{% for cita in proximas_citas %}
 
-    {% for cita in proximas_citas %}
-    <div class="exam">
-        <h4>{{ cita.nombre_examen }}</h4>
-        <p>{{ cita.fecha_cita }} - {{ cita.horario_inicio }}</p>
-    </div>
-    {% else %}
-    <p>No hay exámenes programados próximamente.</p>
-    {% endfor %}
+<div class="exam">
+
+    <h4>{{ cita.nombre_examen }}</h4>
+
+    <p>
+        {{ cita.fecha_cita }} -
+        {{ cita.horario_inicio }}
+    </p>
+
 </div>
+
+{% else %}
+
+<p>No hay exámenes programados próximamente.</p>
+
+{% endfor %}
 
 </div>
 
@@ -153,42 +160,93 @@ CP
 
 <div>
 
-    <div class="panel">
+<!-- RANKING -->
 
-    <h2>Ranking de Aspirantes</h2>
+<div class="panel">
 
-    <table>
-        <thead>
-            <tr>
-                <th>Posición</th>
-                <th>Aspirante</th>
-                <th>Examen</th>
-                <th>Calificación</th>
-            </tr>
-        </thead>
+<h2>Ranking de Aspirantes</h2>
 
-        <tbody>
-            {% for usuario in ranking %}
-            <tr>
-                <td>{{ loop.index }}</td>
-                <td>{{ usuario.nombre_completo }}</td>
-                <td>{{ usuario.nombre_examen }}</td>
-                <td>{{ usuario.calificacion }}%</td>
-            </tr>
-            {% else %}
-            <tr>
-                <td colspan="4" style="text-align:center;">
-                    No hay aspirantes con una calificación mayor o igual a 75%.
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
+<table>
 
-    </table>
+<thead>
+
+<tr>
+    <th>Posición</th>
+    <th>Aspirante</th>
+    <th>Examen</th>
+    <th>Calificación</th>
+    <th>Acción</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for usuario in ranking %}
+
+<tr>
+
+    <td>{{ loop.index }}</td>
+
+    <td>
+        {{ usuario.nombre_completo }}
+    </td>
+
+    <td>
+        {{ usuario.nombre_examen }}
+    </td>
+
+    <td>
+        {{ usuario.calificacion }}%
+    </td>
+
+    <td>
+
+        <form
+            action="{{ url_for('asignar_cita') }}"
+            method="POST"
+        >
+
+            <input
+                type="hidden"
+                name="id_usuario"
+                value="{{ usuario.id_usuario }}"
+            >
+
+            <button type="submit">
+                Asignar cita
+            </button>
+
+        </form>
+
+    </td>
+
+</tr>
+
+{% else %}
+
+<tr>
+
+    <td
+        colspan="5"
+        style="text-align:center;"
+    >
+        No hay aspirantes con una calificación mayor o igual a 75%.
+    </td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
 
 </div>
 
 <br>
+
+<!-- ALERTAS -->
 
 <div class="panel">
 
@@ -209,6 +267,8 @@ CP
 </div>
 
 <br>
+
+<!-- ESTADO IOT -->
 
 <div class="panel">
 
@@ -243,4 +303,5 @@ CP
 </div>
 
 </body>
+
 </html>
