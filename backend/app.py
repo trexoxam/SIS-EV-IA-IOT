@@ -475,10 +475,7 @@ def asignar_cita():
                 cursor.close()
                 conn.close()
 
-                flash(
-                    'Cita asignada correctamente.',
-                    'success'
-                )
+                flash('CITA ASIGNADA CORRECTAMENTE', 'success')
 
                 return redirect(url_for('dashboard'))
 
