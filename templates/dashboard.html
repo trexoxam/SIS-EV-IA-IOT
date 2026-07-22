@@ -13,6 +13,14 @@
 </head>
 
 <body>
+    <div id="toast" class="toast">
+    <div class="toast-icon">✓</div>
+
+    <div class="toast-texto">
+        <strong>Cita asignada</strong>
+        <p>La cita se guardó correctamente.</p>
+    </div>
+</div>
 
 <!-- SIDEBAR -->
 
@@ -284,10 +292,10 @@
                             <td>
 
                                 <form
-                                    action="{{ url_for('asignar_cita') }}"
-                                    method="POST"
-                                    onsubmit="alert('La cita del usuario se guardó correctamente.');"
-                                >
+    action="{{ url_for('asignar_cita') }}"
+    method="POST"
+    onsubmit="mostrarToast(event,this)"
+>
 
                                     <input
                                         type="hidden"
@@ -410,6 +418,8 @@
 
 </div>
 
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 </body>
 
 </html>

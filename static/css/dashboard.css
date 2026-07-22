@@ -282,3 +282,85 @@ width:100%;
 }
 
 }
+
+/*==========================
+   NOTIFICACIÓN (TOAST)
+==========================*/
+
+.toast{
+
+    position: fixed;
+
+    top: 25px;
+    right: 25px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    background: #ffffff;
+
+    padding: 15px 22px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,.20);
+
+    border-left: 6px solid #16a34a;
+
+    transform: translateX(400px);
+
+    transition: .4s;
+
+    z-index: 9999;
+}
+
+.toast.mostrar{
+
+    transform: translateX(0);
+
+}
+
+.toast-icon{
+
+    width:45px;
+    height:45px;
+
+    background:#16a34a;
+
+    color:white;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:22px;
+
+    font-weight:bold;
+
+}
+
+.toast-texto strong{
+
+    display:block;
+
+    color:#111827;
+
+    font-size:16px;
+
+}
+
+.toast-texto p{
+
+    margin-top:4px;
+
+    color:#6b7280;
+
+    font-size:14px;
+
+}
