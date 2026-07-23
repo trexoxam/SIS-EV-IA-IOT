@@ -397,7 +397,7 @@ def dashboard():
     conn.close()
 
     return render_template(
-        'dashboar.html',
+        'dashboard.html',
         resultados=resultados,
         proximas_citas=proximas_citas,
         ranking=ranking,
