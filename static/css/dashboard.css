@@ -364,3 +364,130 @@ width:100%;
     font-size:14px;
 
 }
+
+/* CONTENEDOR DE ACCIONES */
+
+.acciones{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+/* BOTÓN EVALUAR */
+
+.btn-evaluar{
+
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+
+    color:white;
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:10px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:all .3s ease;
+
+    box-shadow:0 4px 10px rgba(37,99,235,.25);
+
+}
+
+/* APROBAR */
+
+.btn-aprobar{
+
+    background:#16a34a;
+
+    color:white;
+
+    border:none;
+
+    padding:11px 20px;
+
+    border-radius:10px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:all .3s ease;
+
+    box-shadow:0 4px 10px rgba(22,163,74,.25);
+
+}
+
+/* RECHAZAR */
+
+.btn-rechazar{
+
+    background:#dc2626;
+
+    color:white;
+
+    border:none;
+
+    padding:11px 20px;
+
+    border-radius:10px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:all .3s ease;
+
+    box-shadow:0 4px 10px rgba(220,38,38,.25);
+
+}
+
+/* EFECTOS HOVER */
+
+.btn-evaluar:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 7px 16px rgba(37,99,235,.35);
+
+}
+
+.btn-aprobar:hover{
+
+    background:#15803d;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 7px 16px rgba(22,163,74,.35);
+
+}
+
+.btn-rechazar:hover{
+
+    background:#b91c1c;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 7px 16px rgba(220,38,38,.35);
+
+}
+
+/* EFECTO AL PRESIONAR */
+
+.btn-evaluar:active,
+.btn-aprobar:active,
+.btn-rechazar:active{
+
+    transform:scale(.96);
+
+}
