@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Evaluación de Entrevista</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <div class="logo">
+        🧠 Exam<span>IA</span>
+    </div>
+
+    <div class="menu">
+
+        <a href="{{ url_for('dashboard') }}">
+            🏠 Dashboard
+        </a>
+
+        <a href="{{ url_for('entrevistas') }}" class="active">
+            🎤 Entrevistas
+        </a>
+
+    </div>
+
+</div>
+
+<div class="main">
+
+<div class="panel">
+
+<h2>Evaluación del Aspirante</h2>
+
+<form action="{{ url_for('guardar_entrevista') }}" method="POST">
+
+<input
+type="hidden"
+name="id_usuario"
+value="{{ aspirante.id_usuario }}">
+
+<input
+type="hidden"
+name="id_cita"
+value="{{ aspirante.id_cita }}">
+
+<p>
+
+<strong>Nombre:</strong>
+
+{{ aspirante.nombre_completo }}
+
+</p>
+
+<br>
+
+<p>
+
+<strong>Fecha de la cita:</strong>
+
+{{ aspirante.fecha_cita }}
+
+</p>
+
+<br>
+
+<p>
+
+<strong>Examen:</strong>
+
+{{ aspirante.nombre_examen }}
+
+</p>
+
+<br>
+
+<p>
+
+<strong>Calificación del examen:</strong>
+
+{{ aspirante.calificacion }} %
+
+</p>
+
+<br>
+
+<label>
+
+Observaciones
+
+</label>
+
+<textarea
+name="observaciones"
+rows="6"
+style="width:100%;padding:10px;"
+required>
+</textarea>
+
+<br><br>
+
+<label>
+
+Calificación de la entrevista
+
+</label>
+
+<input
+type="number"
+name="calificacion"
+min="0"
+max="100"
+required
+style="width:150px;padding:10px;">
+
+<br><br>
+
+<button
+type="submit"
+name="resultado"
+value="Aprobado">
+
+✅ Aprobar
+
+</button>
+
+<button
+type="submit"
+name="resultado"
+value="Rechazado">
+
+❌ Rechazar
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

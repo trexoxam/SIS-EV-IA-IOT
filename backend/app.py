@@ -738,6 +738,102 @@ def entrevistas():
         entrevistas=entrevistas
     )
 
+@app.route('/evaluar_entrevista/<int:id_cita>')
+def evaluar_entrevista(id_cita):
+
+    conn = conectar()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT
+            c.id_cita,
+            c.id_usuario,
+            c.fecha_cita,
+            c.horario_inicio,
+            u.nombre_completo,
+            r.nombre_examen,
+            r.calificacion
+        FROM citas c
+        INNER JOIN usuarios u
+            ON c.id_usuario = u.id_usuario
+        LEFT JOIN resultados_examen r
+            ON c.id_usuario = r.id_usuario
+        WHERE c.id_cita = %s
+        ORDER BY r.calificacion DESC
+        LIMIT 1
+    """, (id_cita,))
+
+    aspirante = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return render_template(
+        'evaluar_entrevista.html',
+        aspirante=aspirante
+    )
+
+@app.route('/guardar_entrevista', methods=['POST'])
+def guardar_entrevista():
+
+    id_usuario = request.form['id_usuario']
+    id_cita = request.form['id_cita']
+    observaciones = request.form['observaciones']
+    calificacion = request.form['calificacion']
+    resultado = request.form['resultado']
+
+    conn = conectar()
+    cursor = conn.cursor()
+
+    # Guardar la entrevista
+    cursor.execute("""
+        INSERT INTO entrevistas
+        (
+            id_usuario,
+            id_cita,
+            observaciones,
+            calificacion,
+            resultado,
+            fecha_evaluacion
+        )
+        VALUES
+        (
+            %s,
+            %s,
+            %s,
+            %s,
+            %s,
+            %s
+        )
+    """,
+    (
+        id_usuario,
+        id_cita,
+        observaciones,
+        calificacion,
+        resultado,
+        datetime.now()
+    ))
+
+    # Cambiar estado de la cita
+    cursor.execute("""
+        UPDATE citas
+        SET estado = 'Entrevistado'
+        WHERE id_cita = %s
+    """, (id_cita,))
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    flash(
+        'La entrevista fue registrada correctamente.',
+        'success'
+    )
+
+    return redirect(url_for('entrevistas'))
+
 @app.route('/crear_cita', methods=['POST'])
 def crear_cita():
     if 'id_usuario' not in session: return redirect(url_for('login'))

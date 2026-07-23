@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ExamIA | Entrevistas</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <div class="logo">
+        🧠 Exam<span>IA</span>
+    </div>
+
+    <div class="menu">
+
+        <a href="{{ url_for('dashboard') }}">
+            🏠 Dashboard
+        </a>
+
+        <a href="#">
+            👤 Aspirantes
+        </a>
+
+        <a href="#">
+            📅 Citas
+        </a>
+
+        <a href="{{ url_for('entrevistas') }}" class="active">
+            🎤 Entrevistas
+        </a>
+
+        <a href="/examenes">
+            📝 Exámenes
+        </a>
+
+    </div>
+
+</div>
+
+<div class="main">
+
+    <div class="panel">
+
+        <h2>Entrevistas Pendientes</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Aspirante</th>
+
+                    <th>Fecha</th>
+
+                    <th>Hora</th>
+
+                    <th>Acción</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for entrevista in entrevistas %}
+
+                <tr>
+
+                    <td>{{ entrevista.nombre_completo }}</td>
+
+                    <td>{{ entrevista.fecha_cita }}</td>
+
+                    <td>{{ entrevista.horario_inicio }}</td>
+
+                    <td>
+
+                        <a
+                        href="{{ url_for('evaluar_entrevista', id_cita=entrevista.id_cita) }}">
+
+                            <button>
+
+                                Evaluar
+
+                            </button>
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            {% else %}
+
+                <tr>
+
+                    <td colspan="4" style="text-align:center;">
+
+                        No existen entrevistas pendientes.
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
