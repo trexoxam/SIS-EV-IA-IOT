@@ -825,7 +825,6 @@ def guardar_entrevista():
         WHERE id_cita = %s
     """, (id_cita,))
 
-
     # Si el aspirante fue aprobado,
     # crear su examen personalizado
     if resultado == 'Aprobado':
@@ -850,7 +849,13 @@ def guardar_entrevista():
                 estado,
                 fecha_asignacion
             )
-            VALUES (%s, %s, %s, %s)
+            VALUES
+            (
+                %s,
+                %s,
+                %s,
+                %s
+            )
         """,
         (
             id_usuario,
@@ -859,6 +864,38 @@ def guardar_entrevista():
             datetime.now()
         ))
 
+        # Obtener el ID del examen recién creado
+        id_examen_asignado = cursor.lastrowid
+
+        # Obtener 10 preguntas aleatorias
+        cursor.execute("""
+            SELECT id_pregunta
+            FROM preguntas
+            ORDER BY RAND()
+            LIMIT 10
+        """)
+
+        preguntas = cursor.fetchall()
+
+        # Asignar las preguntas al examen
+        for pregunta in preguntas:
+
+            cursor.execute("""
+                INSERT INTO preguntas_asignadas
+                (
+                    id_examen_asignado,
+                    id_pregunta
+                )
+                VALUES
+                (
+                    %s,
+                    %s
+                )
+            """,
+            (
+                id_examen_asignado,
+                pregunta['id_pregunta']
+            ))
 
     conn.commit()
 
