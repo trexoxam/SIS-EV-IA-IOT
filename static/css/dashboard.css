@@ -493,3 +493,48 @@ width:100%;
     transform:scale(.95);
 
 }
+/*==========================
+   BOTÓN ASIGNAR CITA
+==========================*/
+
+.btn-asignar{
+
+    background:linear-gradient(135deg,#7c3aed,#a855f7);
+
+    color:white;
+
+    border:none;
+
+    padding:11px 20px;
+
+    border-radius:12px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:all .3s ease;
+
+    box-shadow:0 5px 12px rgba(124,58,237,.25);
+
+}
+
+/* HOVER */
+
+.btn-asignar:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 8px 18px rgba(124,58,237,.40);
+
+}
+
+/* CLICK */
+
+.btn-asignar:active{
+
+    transform:scale(.95);
+
+}
