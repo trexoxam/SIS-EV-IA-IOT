@@ -716,13 +716,29 @@ def agenda():
 
     entrevista = cursor.fetchone()
 
+    # Obtener el examen técnico asignado
+    cursor.execute("""
+        SELECT
+            id_examen_asignado,
+            nombre_examen,
+            estado,
+            fecha_asignacion
+        FROM examenes_asignados
+        WHERE id_usuario = %s
+        ORDER BY fecha_asignacion DESC
+        LIMIT 1
+    """, (id_usuario,))
+
+    examen = cursor.fetchone()
+
     cursor.close()
     conn.close()
 
     return render_template(
         'agenda.html',
         cita=cita,
-        entrevista=entrevista
+        entrevista=entrevista,
+        examen=examen
     )
 
 @app.route('/evaluar_entrevista/<int:id_cita>')
@@ -855,6 +871,43 @@ def guardar_entrevista():
     )
 
     return redirect(url_for('entrevistas'))
+
+@app.route('/examen_tecnico/<int:id>')
+def examen_tecnico(id):
+
+    if 'id_usuario' not in session:
+        return redirect(url_for('login'))
+
+    conn = conectar()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT
+            id_examen_asignado,
+            nombre_examen,
+            estado,
+            fecha_asignacion
+        FROM examenes_asignados
+        WHERE id_examen_asignado = %s
+        AND id_usuario = %s
+    """, (id, session['id_usuario']))
+
+    examen = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    if not examen:
+        flash(
+            "No se encontró el examen asignado.",
+            "warning"
+        )
+        return redirect(url_for('agenda'))
+
+    return render_template(
+        "examen_tecnico.html",
+        examen=examen
+    )
 
 @app.route('/entrevistas')
 def entrevistas():

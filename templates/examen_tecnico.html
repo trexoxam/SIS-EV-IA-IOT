@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ExamIA | Examen Técnico</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/examen_tecnico.css') }}">
+
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <div class="panel">
+
+        <h1>💻 Examen Técnico</h1>
+
+        <h2>{{ examen.nombre_examen }}</h2>
+
+        <div class="info">
+
+            <p><strong>Estado:</strong> {{ examen.estado }}</p>
+
+            <p><strong>Duración:</strong> 30 minutos</p>
+
+            <p><strong>Preguntas:</strong> 10</p>
+
+        </div>
+
+        <div class="mensaje">
+
+            Lee cuidadosamente cada pregunta.
+
+            <br><br>
+
+            Una vez iniciado el examen no podrás abandonarlo.
+
+        </div>
+
+        <br>
+
+        <button class="btn-iniciar">
+
+            🚀 Comenzar examen
+
+        </button>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

@@ -156,7 +156,60 @@ la información aparecerá aquí.
 </div>
 
 </div>
+{% if examen %}
 
+<div class="container">
+
+    <div class="panel">
+
+        <h2>💻 Examen Técnico Personalizado</h2>
+
+        <div class="info">
+
+            <div class="dato">
+
+                <h4>Nombre del examen</h4>
+
+                <p>{{ examen.nombre_examen }}</p>
+
+            </div>
+
+            <div class="dato">
+
+                <h4>Estado</h4>
+
+                <p class="estado">
+
+                    {{ examen.estado }}
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="mensaje">
+
+            Tu examen técnico ya fue asignado.
+            Cuando estés listo podrás iniciarlo.
+
+        </div>
+
+        <br>
+
+        <a
+            href="{{ url_for('examen_tecnico', id=examen.id_examen_asignado) }}"
+            class="btn-examen">
+
+            🚀 Iniciar examen
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endif %}
 </body>
 
 </html>
