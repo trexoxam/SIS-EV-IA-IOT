@@ -397,12 +397,14 @@ def dashboard():
     conn.close()
 
     return render_template(
-        'dashboard.html',
+        'dashboar.html',
         resultados=resultados,
         proximas_citas=proximas_citas,
         ranking=ranking,
         mensaje=mensaje
     )
+
+
 @app.route('/asignar_cita', methods=['POST'])
 def asignar_cita():
 
