@@ -365,7 +365,9 @@ width:100%;
 
 }
 
-/* CONTENEDOR DE ACCIONES */
+/*==========================
+   BOTONES DE ACCIONES
+==========================*/
 
 .acciones{
     display:flex;
@@ -378,15 +380,15 @@ width:100%;
 
 .btn-evaluar{
 
-    background:linear-gradient(135deg,#2563eb,#3b82f6);
+    background:linear-gradient(135deg,#2563eb,#38bdf8);
 
     color:white;
 
     border:none;
 
-    padding:10px 18px;
+    padding:11px 20px;
 
-    border-radius:10px;
+    border-radius:12px;
 
     font-size:14px;
 
@@ -396,15 +398,15 @@ width:100%;
 
     transition:all .3s ease;
 
-    box-shadow:0 4px 10px rgba(37,99,235,.25);
+    box-shadow:0 5px 12px rgba(37,99,235,.25);
 
 }
 
-/* APROBAR */
+/* BOTÓN APROBAR */
 
 .btn-aprobar{
 
-    background:#16a34a;
+    background:linear-gradient(135deg,#16a34a,#22c55e);
 
     color:white;
 
@@ -412,9 +414,9 @@ width:100%;
 
     padding:11px 20px;
 
-    border-radius:10px;
+    border-radius:12px;
 
-    font-size:15px;
+    font-size:14px;
 
     font-weight:600;
 
@@ -422,15 +424,15 @@ width:100%;
 
     transition:all .3s ease;
 
-    box-shadow:0 4px 10px rgba(22,163,74,.25);
+    box-shadow:0 5px 12px rgba(22,163,74,.25);
 
 }
 
-/* RECHAZAR */
+/* BOTÓN RECHAZAR */
 
 .btn-rechazar{
 
-    background:#dc2626;
+    background:linear-gradient(135deg,#dc2626,#ef4444);
 
     color:white;
 
@@ -438,9 +440,9 @@ width:100%;
 
     padding:11px 20px;
 
-    border-radius:10px;
+    border-radius:12px;
 
-    font-size:15px;
+    font-size:14px;
 
     font-weight:600;
 
@@ -448,46 +450,46 @@ width:100%;
 
     transition:all .3s ease;
 
-    box-shadow:0 4px 10px rgba(220,38,38,.25);
+    box-shadow:0 5px 12px rgba(220,38,38,.25);
 
 }
 
-/* EFECTOS HOVER */
+/* HOVER */
+
+.btn-evaluar:hover,
+.btn-aprobar:hover,
+.btn-rechazar:hover{
+
+    transform:translateY(-3px);
+
+}
+
+/* SOMBRA ESPECÍFICA */
 
 .btn-evaluar:hover{
 
-    transform:translateY(-2px);
-
-    box-shadow:0 7px 16px rgba(37,99,235,.35);
+    box-shadow:0 8px 18px rgba(37,99,235,.40);
 
 }
 
 .btn-aprobar:hover{
 
-    background:#15803d;
-
-    transform:translateY(-2px);
-
-    box-shadow:0 7px 16px rgba(22,163,74,.35);
+    box-shadow:0 8px 18px rgba(22,163,74,.40);
 
 }
 
 .btn-rechazar:hover{
 
-    background:#b91c1c;
-
-    transform:translateY(-2px);
-
-    box-shadow:0 7px 16px rgba(220,38,38,.35);
+    box-shadow:0 8px 18px rgba(220,38,38,.40);
 
 }
 
-/* EFECTO AL PRESIONAR */
+/* EFECTO AL HACER CLICK */
 
 .btn-evaluar:active,
 .btn-aprobar:active,
 .btn-rechazar:active{
 
-    transform:scale(.96);
+    transform:scale(.95);
 
 }
