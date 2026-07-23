@@ -705,6 +705,39 @@ def agenda():
         cita=cita
     )
 
+@app.route('/entrevistas')
+def entrevistas():
+
+    conn = conectar()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT
+            u.id_usuario,
+            u.nombre_completo,
+            c.id_cita,
+            c.fecha_cita,
+            c.horario_inicio,
+            c.estado
+        FROM citas c
+        INNER JOIN usuarios u
+            ON c.id_usuario = u.id_usuario
+        LEFT JOIN entrevistas e
+            ON c.id_cita = e.id_cita
+        WHERE e.id_entrevista IS NULL
+        ORDER BY c.fecha_cita ASC
+    """)
+
+    entrevistas = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return render_template(
+        'entrevistas.html',
+        entrevistas=entrevistas
+    )
+
 @app.route('/crear_cita', methods=['POST'])
 def crear_cita():
     if 'id_usuario' not in session: return redirect(url_for('login'))
