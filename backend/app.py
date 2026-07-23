@@ -682,9 +682,10 @@ def agenda():
     conn = conectar()
     cursor = conn.cursor(dictionary=True)
 
-    # Obtener la cita del usuario que inició sesión
+    # Obtener la cita del usuario
     cursor.execute("""
         SELECT
+            id_cita,
             fecha_cita,
             horario_inicio,
             horario_fin,
@@ -697,45 +698,30 @@ def agenda():
 
     cita = cursor.fetchone()
 
+    entrevista = None
+
+    if cita:
+
+        cursor.execute("""
+            SELECT
+                resultado,
+                observaciones,
+                calificacion,
+                fecha_evaluacion
+            FROM entrevistas
+            WHERE id_cita = %s
+            LIMIT 1
+        """, (cita['id_cita'],))
+
+        entrevista = cursor.fetchone()
+
     cursor.close()
     conn.close()
 
     return render_template(
         'agenda.html',
-        cita=cita
-    )
-
-@app.route('/entrevistas')
-def entrevistas():
-
-    conn = conectar()
-    cursor = conn.cursor(dictionary=True)
-
-    cursor.execute("""
-        SELECT
-            u.id_usuario,
-            u.nombre_completo,
-            c.id_cita,
-            c.fecha_cita,
-            c.horario_inicio,
-            c.estado
-        FROM citas c
-        INNER JOIN usuarios u
-            ON c.id_usuario = u.id_usuario
-        LEFT JOIN entrevistas e
-            ON c.id_cita = e.id_cita
-        WHERE e.id_entrevista IS NULL
-        ORDER BY c.fecha_cita ASC
-    """)
-
-    entrevistas = cursor.fetchall()
-
-    cursor.close()
-    conn.close()
-
-    return render_template(
-        'entrevistas.html',
-        entrevistas=entrevistas
+        cita=cita,
+        entrevista=entrevista
     )
 
 @app.route('/evaluar_entrevista/<int:id_cita>')

@@ -117,3 +117,88 @@ margin-bottom:15px;
 color:#64748b;
 font-size:16px;
 }
+/*======================================
+RESULTADO DE LA ENTREVISTA
+======================================*/
+
+.resultado-entrevista{
+    margin-top:30px;
+}
+
+.resultado{
+    padding:25px;
+    border-radius:18px;
+    margin-top:15px;
+    animation:aparecer .4s ease;
+}
+
+.resultado h3{
+    margin-bottom:15px;
+    font-size:24px;
+}
+
+.resultado p{
+    font-size:16px;
+    line-height:1.7;
+}
+
+/* APROBADO */
+
+.aprobado{
+    background:#dcfce7;
+    border-left:8px solid #22c55e;
+}
+
+.aprobado h3{
+    color:#166534;
+}
+
+.aprobado p{
+    color:#14532d;
+}
+
+/* RECHAZADO */
+
+.rechazado{
+    background:#fee2e2;
+    border-left:8px solid #ef4444;
+}
+
+.rechazado h3{
+    color:#991b1b;
+}
+
+.rechazado p{
+    color:#7f1d1d;
+}
+
+/* PENDIENTE */
+
+.pendiente{
+    background:#fef9c3;
+    border-left:8px solid #f59e0b;
+}
+
+.pendiente h3{
+    color:#92400e;
+}
+
+.pendiente p{
+    color:#78350f;
+}
+
+/* ANIMACIÓN */
+
+@keyframes aparecer{
+
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}

@@ -80,6 +80,61 @@ href="{{ url_for('static', filename='css/agenda.css') }}">
 ✅ Preséntate 15 minutos antes de tu cita.
 
 </div>
+{% if entrevista %}
+
+<div class="panel resultado-entrevista">
+
+    <h2>Resultado de la Entrevista</h2>
+
+    {% if entrevista.resultado == 'Aprobado' %}
+
+        <div class="resultado aprobado">
+
+            <h3>🟢 ¡Felicidades!</h3>
+
+            <p>
+                Has sido <strong>APROBADO</strong> en la entrevista.
+            </p>
+
+            <p>
+                En los próximos días se te asignará un examen técnico personalizado.
+            </p>
+
+        </div>
+
+    {% elif entrevista.resultado == 'Rechazado' %}
+
+        <div class="resultado rechazado">
+
+            <h3>🔴 Proceso Finalizado</h3>
+
+            <p>
+                Gracias por participar.
+            </p>
+
+            <p>
+                En esta ocasión no has sido seleccionado para continuar.
+            </p>
+
+        </div>
+
+    {% else %}
+
+        <div class="resultado pendiente">
+
+            <h3>🟡 Entrevista en evaluación</h3>
+
+            <p>
+                Tu entrevista aún está siendo revisada por el entrevistador.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endif %}
 
 {% else %}
 
