@@ -770,7 +770,7 @@ def guardar_entrevista():
     resultado = request.form['resultado']
 
     conn = conectar()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
 
     # Guardar la entrevista
     cursor.execute("""
@@ -808,6 +808,41 @@ def guardar_entrevista():
         SET estado = 'Entrevistado'
         WHERE id_cita = %s
     """, (id_cita,))
+
+
+    # Si el aspirante fue aprobado,
+    # crear su examen personalizado
+    if resultado == 'Aprobado':
+
+        # Obtener el nombre del usuario
+        cursor.execute("""
+            SELECT nombre_completo
+            FROM usuarios
+            WHERE id_usuario = %s
+        """, (id_usuario,))
+
+        usuario = cursor.fetchone()
+
+        nombre_examen = f"Evaluación Técnica - {usuario['nombre_completo']}"
+
+        # Crear examen personalizado
+        cursor.execute("""
+            INSERT INTO examenes_asignados
+            (
+                id_usuario,
+                nombre_examen,
+                estado,
+                fecha_asignacion
+            )
+            VALUES (%s, %s, %s, %s)
+        """,
+        (
+            id_usuario,
+            nombre_examen,
+            'Pendiente',
+            datetime.now()
+        ))
+
 
     conn.commit()
 
