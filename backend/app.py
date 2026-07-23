@@ -684,10 +684,11 @@ def agenda():
     conn = conectar()
     cursor = conn.cursor(dictionary=True)
 
+    id_usuario = session['id_usuario']
+
     # Obtener la cita del usuario
     cursor.execute("""
         SELECT
-            id_cita,
             fecha_cita,
             horario_inicio,
             horario_fin,
@@ -696,26 +697,24 @@ def agenda():
         WHERE id_usuario = %s
         ORDER BY fecha_cita ASC
         LIMIT 1
-    """, (session['id_usuario'],))
+    """, (id_usuario,))
 
     cita = cursor.fetchone()
 
-    entrevista = None
+    # Obtener el resultado de la entrevista
+    cursor.execute("""
+        SELECT
+            resultado,
+            calificacion,
+            observaciones,
+            fecha_evaluacion
+        FROM entrevistas
+        WHERE id_usuario = %s
+        ORDER BY fecha_evaluacion DESC
+        LIMIT 1
+    """, (id_usuario,))
 
-    if cita:
-
-        cursor.execute("""
-            SELECT
-                resultado,
-                observaciones,
-                calificacion,
-                fecha_evaluacion
-            FROM entrevistas
-            WHERE id_cita = %s
-            LIMIT 1
-        """, (cita['id_cita'],))
-
-        entrevista = cursor.fetchone()
+    entrevista = cursor.fetchone()
 
     cursor.close()
     conn.close()
