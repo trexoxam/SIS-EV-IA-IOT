@@ -961,35 +961,181 @@ def examen_tecnico(id):
     if 'id_usuario' not in session:
         return redirect(url_for('login'))
 
+    id_usuario = session['id_usuario']
+
     conn = conectar()
     cursor = conn.cursor(dictionary=True)
 
+    # Obtener el examen
     cursor.execute("""
         SELECT
             id_examen_asignado,
             nombre_examen,
-            estado,
-            fecha_asignacion
+            estado
         FROM examenes_asignados
         WHERE id_examen_asignado = %s
         AND id_usuario = %s
-    """, (id, session['id_usuario']))
+    """, (id, id_usuario))
 
     examen = cursor.fetchone()
+
+    if not examen:
+
+        cursor.close()
+        conn.close()
+
+        flash(
+            'El examen no existe o no te pertenece.',
+            'error'
+        )
+
+        return redirect(url_for('agenda'))
+
+    # Obtener las preguntas generadas por Gemini
+    cursor.execute("""
+        SELECT
+            id_pregunta_generada,
+            pregunta,
+            opcion_a,
+            opcion_b,
+            opcion_c,
+            opcion_d
+        FROM preguntas_generadas
+        WHERE id_examen_asignado = %s
+        ORDER BY id_pregunta_generada ASC
+    """, (id,))
+
+    preguntas = cursor.fetchall()
 
     cursor.close()
     conn.close()
 
+    return render_template(
+        'examen_personalizado.html',
+        examen=examen,
+        preguntas=preguntas
+    )
+
+@app.route('/finalizar_examen_tecnico/<int:id_examen>', methods=['POST'])
+def finalizar_examen_tecnico(id_examen):
+
+    if 'id_usuario' not in session:
+        return redirect(url_for('login'))
+
+    id_usuario = session['id_usuario']
+
+    conn = conectar()
+    cursor = conn.cursor(dictionary=True)
+
+    # Verificar que el examen pertenezca al usuario
+    cursor.execute("""
+        SELECT *
+        FROM examenes_asignados
+        WHERE id_examen_asignado = %s
+        AND id_usuario = %s
+    """, (id_examen, id_usuario))
+
+    examen = cursor.fetchone()
+
     if not examen:
+
+        cursor.close()
+        conn.close()
+
         flash(
-            "No se encontró el examen asignado.",
-            "warning"
+            'El examen no existe o no te pertenece.',
+            'error'
         )
+
         return redirect(url_for('agenda'))
 
+    # Obtener las preguntas del examen
+    cursor.execute("""
+        SELECT
+            id_pregunta_generada,
+            respuesta_correcta
+        FROM preguntas_generadas
+        WHERE id_examen_asignado = %s
+        ORDER BY id_pregunta_generada ASC
+    """, (id_examen,))
+
+    preguntas = cursor.fetchall()
+
+    respuestas_correctas = 0
+
+    # Comparar respuestas
+    for pregunta in preguntas:
+
+        id_pregunta = pregunta['id_pregunta_generada']
+
+        respuesta_usuario = request.form.get(
+            f'respuesta_{id_pregunta}'
+        )
+
+        if respuesta_usuario == pregunta['respuesta_correcta']:
+
+            respuestas_correctas += 1
+
+    total_preguntas = len(preguntas)
+
+    # Calcular calificación
+    if total_preguntas > 0:
+
+        calificacion = (
+            respuestas_correctas / total_preguntas
+        ) * 100
+
+    else:
+
+        calificacion = 0
+
+    # Guardar resultado
+    cursor.execute("""
+        INSERT INTO resultados_examen_tecnico
+        (
+            id_examen_asignado,
+            id_usuario,
+            calificacion,
+            total_preguntas,
+            respuestas_correctas,
+            fecha_realizacion
+        )
+        VALUES
+        (
+            %s,
+            %s,
+            %s,
+            %s,
+            %s,
+            %s
+        )
+    """,
+    (
+        id_examen,
+        id_usuario,
+        calificacion,
+        total_preguntas,
+        respuestas_correctas,
+        datetime.now()
+    ))
+
+    # Marcar examen como completado
+    cursor.execute("""
+        UPDATE examenes_asignados
+        SET estado = 'Completado'
+        WHERE id_examen_asignado = %s
+    """, (id_examen,))
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
     return render_template(
-        "examen_tecnico.html",
-        examen=examen
+        'resultado_examen_tecnico.html',
+        calificacion=calificacion,
+        total_preguntas=total_preguntas,
+        respuestas_correctas=respuestas_correctas
     )
 
 @app.route('/entrevistas')

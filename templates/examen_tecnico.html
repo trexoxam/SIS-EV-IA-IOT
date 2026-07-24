@@ -7,10 +7,308 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ExamIA | Examen Técnico</title>
+<title>{{ examen.nombre_examen }}</title>
 
-<link rel="stylesheet"
-href="{{ url_for('static', filename='css/examen_tecnico.css') }}">
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+
+    min-height:100vh;
+
+    background:
+    linear-gradient(
+        135deg,
+        #0f172a,
+        #1e3a8a,
+        #2563eb
+    );
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:30px;
+
+}
+
+.contenedor{
+
+    width:100%;
+
+    max-width:850px;
+
+}
+
+.encabezado{
+
+    background:white;
+
+    padding:25px 30px;
+
+    border-radius:20px;
+
+    margin-bottom:20px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.20);
+
+}
+
+.encabezado h1{
+
+    color:#0f172a;
+
+    margin-bottom:8px;
+
+}
+
+.encabezado p{
+
+    color:#64748b;
+
+}
+
+.progreso-contenedor{
+
+    margin-top:20px;
+
+}
+
+.progreso-texto{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:8px;
+
+    color:#475569;
+
+    font-size:14px;
+
+}
+
+.progreso{
+
+    height:10px;
+
+    background:#e2e8f0;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+}
+
+.progreso-barra{
+
+    height:100%;
+
+    background:#2563eb;
+
+    width:0%;
+
+    transition:.3s;
+
+}
+
+.pregunta{
+
+    background:white;
+
+    padding:35px;
+
+    border-radius:20px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.20);
+
+}
+
+.pregunta h2{
+
+    color:#0f172a;
+
+    margin-bottom:30px;
+
+    line-height:1.5;
+
+}
+
+.opciones{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+.opcion{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:18px;
+
+    border:2px solid #e2e8f0;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.opcion:hover{
+
+    border-color:#2563eb;
+
+    background:#eff6ff;
+
+}
+
+.opcion input{
+
+    width:20px;
+
+    height:20px;
+
+    accent-color:#2563eb;
+
+}
+
+.opcion label{
+
+    cursor:pointer;
+
+    color:#334155;
+
+    font-size:16px;
+
+    flex:1;
+
+}
+
+.navegacion{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:30px;
+
+}
+
+button{
+
+    border:none;
+
+    padding:14px 28px;
+
+    border-radius:12px;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.btn-anterior{
+
+    background:#e2e8f0;
+
+    color:#334155;
+
+}
+
+.btn-anterior:hover{
+
+    background:#cbd5e1;
+
+}
+
+.btn-siguiente{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+.btn-siguiente:hover{
+
+    background:#1d4ed8;
+
+}
+
+.btn-finalizar{
+
+    background:#16a34a;
+
+    color:white;
+
+}
+
+.btn-finalizar:hover{
+
+    background:#15803d;
+
+}
+
+@media(max-width:600px){
+
+    body{
+
+        padding:15px;
+
+    }
+
+    .pregunta{
+
+        padding:22px;
+
+    }
+
+    .encabezado{
+
+        padding:20px;
+
+    }
+
+    .navegacion{
+
+        gap:10px;
+
+    }
+
+    button{
+
+        padding:12px 18px;
+
+        font-size:14px;
+
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -18,43 +316,209 @@ href="{{ url_for('static', filename='css/examen_tecnico.css') }}">
 
 <div class="contenedor">
 
-    <div class="panel">
+    <div class="encabezado">
 
-        <h1>💻 Examen Técnico</h1>
+        <h1>
+            🧠 {{ examen.nombre_examen }}
+        </h1>
 
-        <h2>{{ examen.nombre_examen }}</h2>
+        <p>
+            Examen técnico personalizado generado por IA
+        </p>
 
-        <div class="info">
+        <div class="progreso-contenedor">
 
-            <p><strong>Estado:</strong> {{ examen.estado }}</p>
+            <div class="progreso-texto">
 
-            <p><strong>Duración:</strong> 30 minutos</p>
+                <span>
+                    Pregunta
+                    <span id="numeroActual">1</span>
+                    de
+                    {{ preguntas|length }}
+                </span>
 
-            <p><strong>Preguntas:</strong> 10</p>
+                <span id="porcentaje">
+                    0%
+                </span>
+
+            </div>
+
+            <div class="progreso">
+
+                <div
+                    class="progreso-barra"
+                    id="barraProgreso">
+                </div>
+
+            </div>
 
         </div>
-
-        <div class="mensaje">
-
-            Lee cuidadosamente cada pregunta.
-
-            <br><br>
-
-            Una vez iniciado el examen no podrás abandonarlo.
-
-        </div>
-
-        <br>
-
-        <button class="btn-iniciar">
-
-            🚀 Comenzar examen
-
-        </button>
 
     </div>
 
+
+   <form
+    action="{{ url_for(
+        'finalizar_examen_tecnico',
+        id_examen=examen.id_examen_asignado
+    ) }}"
+    method="POST"
+    id="formularioExamen"
+>
+
+        {% for pregunta in preguntas %}
+
+        <div
+            class="pregunta"
+            data-pregunta="{{ loop.index0 }}"
+            style="display:none;"
+        >
+
+            <h2>
+
+                {{ loop.index }}.
+
+                {{ pregunta.pregunta }}
+
+            </h2>
+
+
+            <div class="opciones">
+
+                <label class="opcion">
+
+                    <input
+                        type="radio"
+                        name="respuesta_{{ pregunta.id_pregunta_generada }}"
+                        value="A"
+                    >
+
+                    <span>
+
+                        <strong>A)</strong>
+
+                        {{ pregunta.opcion_a }}
+
+                    </span>
+
+                </label>
+
+
+                <label class="opcion">
+
+                    <input
+                        type="radio"
+                        name="respuesta_{{ pregunta.id_pregunta_generada }}"
+                        value="B"
+                    >
+
+                    <span>
+
+                        <strong>B)</strong>
+
+                        {{ pregunta.opcion_b }}
+
+                    </span>
+
+                </label>
+
+
+                <label class="opcion">
+
+                    <input
+                        type="radio"
+                        name="respuesta_{{ pregunta.id_pregunta_generada }}"
+                        value="C"
+                    >
+
+                    <span>
+
+                        <strong>C)</strong>
+
+                        {{ pregunta.opcion_c }}
+
+                    </span>
+
+                </label>
+
+
+                <label class="opcion">
+
+                    <input
+                        type="radio"
+                        name="respuesta_{{ pregunta.id_pregunta_generada }}"
+                        value="D"
+                    >
+
+                    <span>
+
+                        <strong>D)</strong>
+
+                        {{ pregunta.opcion_d }}
+
+                    </span>
+
+                </label>
+
+            </div>
+
+
+            <div class="navegacion">
+
+                <button
+                    type="button"
+                    class="btn-anterior"
+                    onclick="anterior()"
+                >
+
+                    ← Anterior
+
+                </button>
+
+
+                {% if not loop.last %}
+
+                <button
+                    type="button"
+                    class="btn-siguiente"
+                    onclick="siguiente()"
+                >
+
+                    Siguiente →
+
+                </button>
+
+                {% else %}
+
+                <button
+                    type="button"
+                    class="btn-finalizar"
+                    onclick="finalizar()"
+                >
+
+                    Finalizar examen
+
+                </button>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </form>
+
 </div>
+
+
+<script
+    src="{{ url_for(
+        'static',
+        filename='js/examen_personalizado.js'
+    ) }}">
+</script>
 
 </body>
 
