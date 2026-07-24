@@ -747,6 +747,7 @@ def evaluar_entrevista(id_cita):
     conn = conectar()
     cursor = conn.cursor(dictionary=True)
 
+    # Obtener información del aspirante
     cursor.execute("""
         SELECT
             c.id_cita,
@@ -768,12 +769,37 @@ def evaluar_entrevista(id_cita):
 
     aspirante = cursor.fetchone()
 
+    # Obtener todas las áreas
+    cursor.execute("""
+        SELECT
+            id_area,
+            nombre
+        FROM areas
+        ORDER BY nombre
+    """)
+
+    areas = cursor.fetchall()
+
+    # Obtener todos los puestos
+    cursor.execute("""
+        SELECT
+            id_puesto,
+            id_area,
+            nombre
+        FROM puestos
+        ORDER BY nombre
+    """)
+
+    puestos = cursor.fetchall()
+
     cursor.close()
     conn.close()
 
     return render_template(
         'evaluar_entrevista.html',
-        aspirante=aspirante
+        aspirante=aspirante,
+        areas=areas,
+        puestos=puestos
     )
 
 @app.route('/guardar_entrevista', methods=['POST'])
@@ -781,6 +807,7 @@ def guardar_entrevista():
 
     id_usuario = request.form['id_usuario']
     id_cita = request.form['id_cita']
+    id_puesto = request.form['id_puesto']
     observaciones = request.form['observaciones']
     calificacion = request.form['calificacion']
     resultado = request.form['resultado']
@@ -794,6 +821,7 @@ def guardar_entrevista():
         (
             id_usuario,
             id_cita,
+            id_puesto,
             observaciones,
             calificacion,
             resultado,
@@ -806,12 +834,14 @@ def guardar_entrevista():
             %s,
             %s,
             %s,
+            %s,
             %s
         )
     """,
     (
         id_usuario,
         id_cita,
+        id_puesto,
         observaciones,
         calificacion,
         resultado,

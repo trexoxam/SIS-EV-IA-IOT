@@ -95,6 +95,72 @@ value="{{ aspirante.id_cita }}">
 
 <label>
 
+Área
+
+</label>
+
+<select
+id="area"
+style="width:100%;padding:10px;"
+required>
+
+<option value="">
+
+Seleccione un área
+
+</option>
+
+{% for area in areas %}
+
+<option value="{{ area.id_area }}">
+
+{{ area.nombre }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+<br><br>
+
+<label>
+
+Puesto
+
+</label>
+
+<select
+id="puesto"
+name="id_puesto"
+style="width:100%;padding:10px;"
+required>
+
+<option value="">
+
+Seleccione un puesto
+
+</option>
+
+{% for puesto in puestos %}
+
+<option
+value="{{ puesto.id_puesto }}"
+data-area="{{ puesto.id_area }}"
+style="display:none;">
+
+{{ puesto.nombre }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+<br><br>
+
+<label>
+
 Observaciones
 
 </label>
@@ -153,6 +219,44 @@ style="width:150px;padding:10px;">
 </div>
 
 </div>
+
+<script>
+
+const area = document.getElementById("area");
+const puesto = document.getElementById("puesto");
+
+area.addEventListener("change", function(){
+
+    const idArea = this.value;
+
+    puesto.selectedIndex = 0;
+
+    for(let opcion of puesto.options){
+
+        if(opcion.value===""){
+
+            opcion.style.display="block";
+            continue;
+
+        }
+
+        if(opcion.dataset.area===idArea){
+
+            opcion.style.display="block";
+
+        }
+
+        else{
+
+            opcion.style.display="none";
+
+        }
+
+    }
+
+});
+
+</script>
 
 </body>
 
