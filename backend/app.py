@@ -7,7 +7,7 @@ from google import genai
 from google.genai import types
 import json
 
-from backend.ia_generador import generar_pregunta
+from backend.ia_generador import generar_pregunta, generar_examen
 
 from flask import jsonify
 
@@ -855,22 +855,30 @@ def guardar_entrevista():
         WHERE id_cita = %s
     """, (id_cita,))
 
-    # Si el aspirante fue aprobado,
-    # crear su examen personalizado
+    # Si el aspirante fue aprobado
     if resultado == 'Aprobado':
 
-        # Obtener el nombre del usuario
+        # Obtener nombre del usuario y nombre del puesto
         cursor.execute("""
-            SELECT nombre_completo
-            FROM usuarios
-            WHERE id_usuario = %s
-        """, (id_usuario,))
+            SELECT
+                u.nombre_completo,
+                p.nombre AS nombre_puesto
+            FROM usuarios u
+            INNER JOIN puestos p
+                ON p.id_puesto = %s
+            WHERE u.id_usuario = %s
+        """, (id_puesto, id_usuario))
 
         usuario = cursor.fetchone()
 
-        nombre_examen = f"Evaluación Técnica - {usuario['nombre_completo']}"
+        nombre_puesto = usuario['nombre_puesto']
 
-        # Crear examen personalizado
+        nombre_examen = (
+            f"Evaluación Técnica - "
+            f"{usuario['nombre_completo']}"
+        )
+
+        # Crear el examen personalizado
         cursor.execute("""
             INSERT INTO examenes_asignados
             (
@@ -897,34 +905,42 @@ def guardar_entrevista():
         # Obtener el ID del examen recién creado
         id_examen_asignado = cursor.lastrowid
 
-        # Obtener 10 preguntas aleatorias
-        cursor.execute("""
-            SELECT id_pregunta
-            FROM preguntas
-            ORDER BY RAND()
-            LIMIT 10
-        """)
+        # Generar las 10 preguntas con Gemini
+        preguntas = generar_examen(nombre_puesto)
 
-        preguntas = cursor.fetchall()
-
-        # Asignar las preguntas al examen
+        # Guardar las preguntas generadas por la IA
         for pregunta in preguntas:
 
             cursor.execute("""
-                INSERT INTO preguntas_asignadas
+                INSERT INTO preguntas_generadas
                 (
                     id_examen_asignado,
-                    id_pregunta
+                    pregunta,
+                    opcion_a,
+                    opcion_b,
+                    opcion_c,
+                    opcion_d,
+                    respuesta_correcta
                 )
                 VALUES
                 (
+                    %s,
+                    %s,
+                    %s,
+                    %s,
+                    %s,
                     %s,
                     %s
                 )
             """,
             (
                 id_examen_asignado,
-                pregunta['id_pregunta']
+                pregunta['pregunta'],
+                pregunta['opcion_a'],
+                pregunta['opcion_b'],
+                pregunta['opcion_c'],
+                pregunta['opcion_d'],
+                pregunta['respuesta_correcta']
             ))
 
     conn.commit()
