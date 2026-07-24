@@ -4,9 +4,7 @@ import os
 
 
 # API Key
-client = genai.Client(
-    api_key=os.getenv("AQ.Ab8RN6KDuEIyevQiNvYaMZX9vGfotwBmV3dEPoQrngN4-8MZEw")
-)
+client = genai.Client(api_key="AQ.Ab8RN6KDuEIyevQiNvYaMZX9vGfotwBmV3dEPoQrngN4-8MZEw")
 
 
 def generar_pregunta(nombre_examen, tema):
