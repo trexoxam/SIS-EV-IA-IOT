@@ -188,22 +188,84 @@ la información aparecerá aquí.
 
         </div>
 
-        <div class="mensaje">
+        {% if resultado_tecnico %}
 
-            Tu examen técnico ya fue asignado.
-            Cuando estés listo podrás iniciarlo.
+            <div class="resultado aprobado">
 
-        </div>
+                <h3>🎉 Examen Finalizado</h3>
 
-        <br>
+                <p>
 
-        <a
-            href="{{ url_for('examen_tecnico', id=examen.id_examen_asignado) }}"
-            class="btn-examen">
+                    Tu examen técnico ha sido evaluado correctamente.
 
-            🚀 Iniciar examen
+                </p>
 
-        </a>
+            </div>
+
+            <br>
+
+            <div class="info">
+
+                <div class="dato">
+
+                    <h4>🎯 Calificación</h4>
+
+                    <p>
+
+                        {{ "%.2f"|format(resultado_tecnico.calificacion) }} %
+
+                    </p>
+
+                </div>
+
+                <div class="dato">
+
+                    <h4>✅ Respuestas correctas</h4>
+
+                    <p>
+
+                        {{ resultado_tecnico.respuestas_correctas }}
+                        /
+                        {{ resultado_tecnico.total_preguntas }}
+
+                    </p>
+
+                </div>
+
+                <div class="dato">
+
+                    <h4>📅 Fecha</h4>
+
+                    <p>
+
+                        {{ resultado_tecnico.fecha_realizacion }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        {% else %}
+
+            <div class="mensaje">
+
+                Tu examen técnico ya fue asignado.
+                Cuando estés listo podrás iniciarlo.
+
+            </div>
+
+            <br>
+
+            <a
+                href="{{ url_for('examen_tecnico', id=examen.id_examen_asignado) }}"
+                class="btn-examen">
+
+                🚀 Iniciar examen
+
+            </a>
+
+        {% endif %}
 
     </div>
 
