@@ -1031,7 +1031,7 @@ def examen_tecnico(id):
     conn.close()
 
     return render_template(
-        'examen_personalizado.html',
+        'examen_tecnico.html',
         examen=examen,
         preguntas=preguntas
     )
