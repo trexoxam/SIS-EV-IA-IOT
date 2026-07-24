@@ -731,6 +731,25 @@ def agenda():
 
     examen = cursor.fetchone()
 
+    # Obtener el resultado del examen técnico
+    cursor.execute("""
+        SELECT
+            r.calificacion,
+            r.total_preguntas,
+            r.respuestas_correctas,
+            r.fecha_realizacion,
+            e.nombre_examen,
+            e.estado
+        FROM resultados_examen_tecnico r
+        INNER JOIN examenes_asignados e
+            ON r.id_examen_asignado = e.id_examen_asignado
+        WHERE r.id_usuario = %s
+        ORDER BY r.fecha_realizacion DESC
+        LIMIT 1
+    """, (id_usuario,))
+
+    resultado_tecnico = cursor.fetchone()
+
     cursor.close()
     conn.close()
 
@@ -738,7 +757,8 @@ def agenda():
         'agenda.html',
         cita=cita,
         entrevista=entrevista,
-        examen=examen
+        examen=examen,
+        resultado_tecnico=resultado_tecnico
     )
 
 @app.route('/evaluar_entrevista/<int:id_cita>')
