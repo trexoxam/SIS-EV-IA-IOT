@@ -5,7 +5,7 @@ import os
 from werkzeug.security import generate_password_hash, check_password_hash
 from google import genai
 from google.genai import types
-from db import conexion
+from .db import conexion
 import json
 
 from backend.ia_generador import generar_pregunta, generar_examen
