@@ -5,6 +5,7 @@ import os
 from werkzeug.security import generate_password_hash, check_password_hash
 from google import genai
 from google.genai import types
+from db import conexion
 import json
 
 from backend.ia_generador import generar_pregunta, generar_examen
@@ -1219,5 +1220,23 @@ def crear_cita():
     finally:
         cursor.close()
         conn.close()
+
+
+@app.route('/restablecer-password', methods=['POST'])
+def restablecer_password():
+    correo = request.form['correo']
+    nueva_password = request.form['nueva_password']
+    
+    cursor = conexion.cursor()
+    
+    # Opcional: Aquí podrías encriptar la contraseña si usas hash (ej. werkzeug.security)
+    
+    sql = "UPDATE usuarios SET password = %s WHERE correo = %s"
+    cursor.execute(sql, (nueva_password, correo))
+    conexion.commit()
+    cursor.close()
+    
+    return "Contraseña actualizada con éxito. Ya puedes iniciar sesión."
+
 if __name__ == '__main__':
     app.run(debug=True)
