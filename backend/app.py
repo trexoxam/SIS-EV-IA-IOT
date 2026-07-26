@@ -1220,7 +1220,6 @@ def crear_cita():
         cursor.close()
         conn.close()
 
-# Ruta para mostrar la vista de restablecer contraseña
 @app.route('/restablecer')
 def vista_restablecer():
     return render_template('restablecer.html')
@@ -1232,30 +1231,33 @@ def restablecer_password():
     nueva_password = request.form['nueva_password']
     
     try:
-        # Usamos tu conexión existente desde db.py
+        # Llamamos a la función conectar() de tu db.py
+        conexion = conectar()
         cursor = conexion.cursor()
         
-        # Opcional: Validar si el correo existe primero
+        # Verificar si el correo existe
         sql_verificar = "SELECT * FROM usuarios WHERE correo = %s"
         cursor.execute(sql_verificar, (correo,))
         usuario = cursor.fetchone()
         
         if not usuario:
             cursor.close()
+            conexion.close()
             return "El correo electrónico no está registrado en el sistema.", 404
             
         # Actualizar la contraseña
         sql_update = "UPDATE usuarios SET password = %s WHERE correo = %s"
         cursor.execute(sql_update, (nueva_password, correo))
         conexion.commit()
-        cursor.close()
         
-        # Redirigir al login con éxito (o mostrar un mensaje)
-        return redirect(url_for('index')) # O la ruta de tu login ('/login')
+        cursor.close()
+        conexion.close()
+        
+        # Redirigir al login o página principal
+        return redirect(url_for('index'))
         
     except Exception as e:
         return f"Ocurrió un error al actualizar la contraseña: {e}", 500
-
 
 if __name__ == '__main__':
     app.run(debug=True)
