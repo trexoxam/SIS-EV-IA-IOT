@@ -1219,18 +1219,12 @@ def crear_cita():
         cursor.close()
         conn.close()
 
-@app.route('/restablecer')
-def vista_restablecer():
-    return render_template('restablecer.html')
-
-# Ruta que recibe los datos y actualiza la base de datos
 @app.route('/restablecer-password', methods=['POST'])
 def restablecer_password():
     correo = request.form['correo']
     nueva_password = request.form['nueva_password']
     
     try:
-        # Llamamos a la función conectar() de tu db.py
         conexion = conectar()
         cursor = conexion.cursor()
         
@@ -1244,16 +1238,19 @@ def restablecer_password():
             conexion.close()
             return "El correo electrónico no está registrado en el sistema.", 404
             
-        # Actualizar la contraseña
+        # Encriptar la nueva contraseña antes de guardarla en la base de datos
+        password_cifrada = generate_password_hash(nueva_password)
+        
+        # Actualizar la contraseña usando el nombre exacto de la columna 'password' y 'correo'
         sql_update = "UPDATE usuarios SET password = %s WHERE correo = %s"
-        cursor.execute(sql_update, (nueva_password, correo))
+        cursor.execute(sql_update, (password_cifrada, correo))
         conexion.commit()
         
         cursor.close()
         conexion.close()
         
-        # Redirigir al login o página principal
-        return redirect(url_for('index'))
+        # Redirigir al login o página principal tras el éxito
+        return redirect(url_for('login')) # O la ruta de tu login
         
     except Exception as e:
         return f"Ocurrió un error al actualizar la contraseña: {e}", 500
