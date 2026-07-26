@@ -2,118 +2,93 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restablecer Contraseña - ExamIA</title>
+    <title>Restablecer Contraseña</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         body {
-            background-color: #0b0f19;
+            background-color: #0d1117;
             color: #ffffff;
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
         }
-
         .container {
-            background-color: #121826;
+            background-color: #161b22;
             padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
             width: 100%;
-            max-width: 420px;
-            border: 1px solid #1e293b;
+            max-width: 400px;
+            text-align: center;
         }
-
         h2 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: #f8fafc;
-        }
-
-        p {
-            font-size: 14px;
-            color: #94a3b8;
             margin-bottom: 25px;
+            font-size: 24px;
+            color: #ffffff;
         }
-
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
         label {
             display: block;
-            font-size: 13px;
-            color: #cbd5e1;
             margin-bottom: 8px;
-            font-weight: 500;
+            font-size: 14px;
+            color: #c9d1d9;
         }
-
         input {
             width: 100%;
-            padding: 12px 15px;
-            background-color: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 8px;
+            padding: 10px;
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 5px;
             color: #ffffff;
             font-size: 14px;
-            margin-bottom: 20px;
-            outline: none;
-            transition: border-color 0.2s;
+            box-sizing: border-box;
         }
-
         input:focus {
-            border-color: #3b82f6;
+            outline: none;
+            border-color: #1f6feb;
         }
-
         button {
             width: 100%;
-            padding: 12px;
-            background-color: #2563eb;
+            padding: 11px;
+            background-color: #1f6feb;
             border: none;
-            border-radius: 8px;
-            color: #ffffff;
-            font-size: 15px;
-            font-weight: 600;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
+            margin-top: 10px;
             transition: background-color 0.2s;
         }
-
         button:hover {
-            background-color: #1d4ed8;
-        }
-
-        .volver {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            color: #60a5fa;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .volver:hover {
-            text-decoration: underline;
+            background-color: #388bfd;
         }
     </style>
 </head>
 <body>
-    <h2>Restablecer tu Contraseña</h2>
-    
-    <form action="/restablecer-password" method="POST">
-        <div>
-            <label for="correo">Correo electrónico:</label>
-            <input type="email" id="correo" name="correo" required>
-        </div>
+
+    <div class="container">
+        <h2>Restablecer tu Contraseña</h2>
         
-        <div>
-            <label for="nueva_password">Nueva contraseña:</label>
-            <input type="password" id="nueva_password" name="nueva_password" required>
-        </div>
-        
-        <button type="submit">Actualizar Contraseña</button>
-    </form>
+        <form action="/restablecer-password" method="POST">
+            <div class="form-group">
+                <label for="correo">Correo electrónico:</label>
+                <input type="email" id="correo" name="correo" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="nueva_password">Nueva contraseña:</label>
+                <input type="password" id="nueva_password" name="nueva_password" required>
+            </div>
+            
+            <button type="submit">Actualizar Contraseña</button>
+        </form>
+    </div>
+
 </body>
 </html>
