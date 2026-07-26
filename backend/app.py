@@ -1219,6 +1219,11 @@ def crear_cita():
         cursor.close()
         conn.close()
 
+@app.route('/restablecer')
+def vista_restablecer():
+    return render_template('restablecer.html')
+
+# Ruta que recibe los datos del formulario y actualiza la contraseña
 @app.route('/restablecer-password', methods=['POST'])
 def restablecer_password():
     correo = request.form['correo']
@@ -1228,7 +1233,7 @@ def restablecer_password():
         conexion = conectar()
         cursor = conexion.cursor()
         
-        # Verificar si el correo existe
+        # Verificar si el correo existe en la tabla usuarios
         sql_verificar = "SELECT * FROM usuarios WHERE correo = %s"
         cursor.execute(sql_verificar, (correo,))
         usuario = cursor.fetchone()
@@ -1238,10 +1243,10 @@ def restablecer_password():
             conexion.close()
             return "El correo electrónico no está registrado en el sistema.", 404
             
-        # Encriptar la nueva contraseña antes de guardarla en la base de datos
+        # Cifrar la nueva contraseña con hash por seguridad
         password_cifrada = generate_password_hash(nueva_password)
         
-        # Actualizar la contraseña usando el nombre exacto de la columna 'password' y 'correo'
+        # Actualizar la contraseña en la base de datos
         sql_update = "UPDATE usuarios SET password = %s WHERE correo = %s"
         cursor.execute(sql_update, (password_cifrada, correo))
         conexion.commit()
@@ -1249,8 +1254,8 @@ def restablecer_password():
         cursor.close()
         conexion.close()
         
-        # Redirigir al login o página principal tras el éxito
-        return redirect(url_for('login')) # O la ruta de tu login
+        # Redirigir al login después de actualizar con éxito
+        return redirect(url_for('login'))
         
     except Exception as e:
         return f"Ocurrió un error al actualizar la contraseña: {e}", 500
